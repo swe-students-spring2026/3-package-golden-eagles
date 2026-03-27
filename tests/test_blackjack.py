@@ -1,5 +1,5 @@
 import pytest
-from functions.blackjack import Card
+from src.BlackJack.blackjack import Card
 
 # pytest tests/test_blackjack.py
 
