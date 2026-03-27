@@ -6,6 +6,9 @@ name = "pypi"
 [packages]
 
 [dev-packages]
+build = "*"
+twine = "*"
+pytest = "*"
 
 [requires]
 python_version = "3.14"
