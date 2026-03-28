@@ -1,3 +1,5 @@
+from random import choice
+
 class Card():
     def __init__(self, suit, num):
         self.suit = suit
@@ -15,8 +17,9 @@ class Card():
                 card = Card(suit, num)
                 deck.append(card)
         return deck
-
-
-# def blackjack():
-#     # waste time with a game of blackjack
     
+    @staticmethod
+    def pick_card(deck):
+        card = choice(deck)
+        deck.remove(card)
+        return card
