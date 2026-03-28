@@ -14,7 +14,7 @@ This repository is in active development for the course package exercise.
 - **Dino Game**:
 
 ## Current Progress
-
+- `core` default library containing basic class and functions
 - `minefield` module exists with core functions and a terminal game loop.
 - `snake` basics are started with importable core logic in `src/snake/core.py`.
 
@@ -27,3 +27,4 @@ This repository is in active development for the course package exercise.
 - Add full packaging metadata for publishing to PyPI.
 - Add CI workflow to test/build on multiple Python versions.
 - Expand examples and function-level documentation for each game.
+
