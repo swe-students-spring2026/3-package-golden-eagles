@@ -10,11 +10,13 @@ def start_blackjack(deck):
     player_card2 = Card.pick_card(deck)
     dealer_card_hidden = Card.pick_card(deck)
 
-    # print(f"Player's cards: {player_card1.num} of {player_card1.suit}, {player_card2.num} of {player_card2.suit}")
-    # print(f"Dealer's card: {dealer_card_shown.num} of {dealer_card_shown.suit}, {dealer_card_hidden.num} of {dealer_card_hidden.suit}")
-    # for card in deck:
-    #     print(f"{card.num} of {card.suit}")
+    print("Dealers:")
+    dealer_card_shown.print_card()
+    Card.print_blank()
+
+    print("Your cards:")
     player_card1.print_card()
+    player_card2.print_card()
 
 
 

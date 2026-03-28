@@ -23,6 +23,7 @@ class Card():
         card = choice(deck)
         deck.remove(card)
         return card
+    
     # │, ─, ┌, ┐,└, ┘
     def print_card(self):
         suits = {
@@ -42,19 +43,36 @@ class Card():
         suit = suits[self.suit]
         num = royal.get(self.num, str(self.num))
 
+        # can make them specific for every number but this works for now
         if(num == "10"):
-            print(f"┌─────────┐")
-            print(f"│{num}     {num}│")
-            print(f"│{suit}       {suit}│")
-            print(f"│         │")
-            print(f"│{suit}       {suit}│")
-            print(f"│{num}     {num}│")
-            print(f"└─────────┘")
+            print(f"┌───────────┐")
+            print(f"│{num}       {num}│")
+            print(f"│{suit}         {suit}│")
+            print(f"│           │")
+            print(f"│           │")
+            print(f"│           │")
+            print(f"│{suit}         {suit}│")
+            print(f"│{num}       {num}│")
+            print(f"└───────────┘")
         else:
-            print(f"┌─────────┐")
-            print(f"│{num}       {num}│")
-            print(f"│{suit}       {suit}│")
-            print(f"│         │")
-            print(f"│{suit}       {suit}│")
-            print(f"│{num}       {num}│")
-            print(f"└─────────┘")
+            print(f"┌───────────┐")
+            print(f"│{num}         {num}│")
+            print(f"│{suit}         {suit}│")
+            print(f"│           │")
+            print(f"│           │")
+            print(f"│           │")
+            print(f"│{suit}         {suit}│")
+            print(f"│{num}         {num}│")
+            print(f"└───────────┘")
+           
+    @staticmethod
+    def print_blank():
+        print(f"┌───────────┐")
+        print(f"│           │")
+        print(f"│           │")
+        print(f"│           │")
+        print(f"│           │")
+        print(f"│           │")
+        print(f"│           │")
+        print(f"│           │")
+        print(f"└───────────┘")
