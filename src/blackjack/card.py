@@ -45,34 +45,37 @@ class Card():
 
         # can make them specific for every number but this works for now
         if(num == "10"):
-            print(f"┌───────────┐")
-            print(f"│{num}       {num}│")
-            print(f"│{suit}         {suit}│")
-            print(f"│           │")
-            print(f"│           │")
-            print(f"│           │")
-            print(f"│{suit}         {suit}│")
-            print(f"│{num}       {num}│")
-            print(f"└───────────┘")
+            return f"""┌───────────┐
+│{num}       {num}│
+│{suit}         {suit}│
+│           │
+│           │
+│           │
+│{suit}         {suit}│
+│{num}       {num}│
+└───────────┘
+"""
         else:
-            print(f"┌───────────┐")
-            print(f"│{num}         {num}│")
-            print(f"│{suit}         {suit}│")
-            print(f"│           │")
-            print(f"│           │")
-            print(f"│           │")
-            print(f"│{suit}         {suit}│")
-            print(f"│{num}         {num}│")
-            print(f"└───────────┘")
+            return f"""┌───────────┐
+│{num}         {num}│
+│{suit}         {suit}│
+│           │
+│           │
+│           │
+│{suit}         {suit}│
+│{num}         {num}│
+└───────────┘
+"""
            
     @staticmethod
     def print_blank():
-        print(f"┌───────────┐")
-        print(f"│           │")
-        print(f"│           │")
-        print(f"│           │")
-        print(f"│           │")
-        print(f"│           │")
-        print(f"│           │")
-        print(f"│           │")
-        print(f"└───────────┘")
+        return """┌───────────┐
+│           │
+│           │
+│           │
+│           │
+│           │
+│           │
+│           │
+└───────────┘
+"""

@@ -11,12 +11,10 @@ def start_blackjack(deck):
     dealer_card_hidden = Card.pick_card(deck)
 
     print("Dealers:")
-    dealer_card_shown.print_card()
-    Card.print_blank()
+    print(dealer_card_shown.print_card() + Card.print_blank())
 
     print("Your cards:")
-    player_card1.print_card()
-    player_card2.print_card()
+    print(player_card1.print_card() + player_card2.print_card())
 
 
 
