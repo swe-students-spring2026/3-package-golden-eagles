@@ -27,4 +27,4 @@ This repository is in active development for the course package exercise.
 - Add full packaging metadata for publishing to PyPI.
 - Add CI workflow to test/build on multiple Python versions.
 - Expand examples and function-level documentation for each game.
-
+- Implement tests using pytest 
