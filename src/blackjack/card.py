@@ -23,3 +23,38 @@ class Card():
         card = choice(deck)
         deck.remove(card)
         return card
+    # │, ─, ┌, ┐,└, ┘
+    def print_card(self):
+        suits = {
+            "Hearts": "♥",
+            "Diamonds": "♦",
+            "Clubs": "♣",
+            "Spades": "♠"
+        }
+
+        royal = {
+            1: "A",
+            11: "J",
+            12: "Q",
+            13: "K"
+        }
+
+        suit = suits[self.suit]
+        num = royal.get(self.num, str(self.num))
+
+        if(num == "10"):
+            print(f"┌─────────┐")
+            print(f"│{num}     {num}│")
+            print(f"│{suit}       {suit}│")
+            print(f"│         │")
+            print(f"│{suit}       {suit}│")
+            print(f"│{num}     {num}│")
+            print(f"└─────────┘")
+        else:
+            print(f"┌─────────┐")
+            print(f"│{num}       {num}│")
+            print(f"│{suit}       {suit}│")
+            print(f"│         │")
+            print(f"│{suit}       {suit}│")
+            print(f"│{num}       {num}│")
+            print(f"└─────────┘")
