@@ -19,6 +19,20 @@ This repository is in active development for the course package exercise.
 - `snake` basics are started with importable core logic in `src/snake/core.py`.
 
 ## Quick Usage
+### Minefield
+```bash
+PYTHONPATH=src pipenv run python -m minefield
+```
+
+### Snake
+```bash
+PYTHONPATH=src pipenv run python -m snake
+```
+
+### Tetris
+```bash
+PYTHONPATH=src pipenv run python -m tetris
+```
 
 ## Development (WIP)
 
