@@ -1,5 +1,5 @@
 from random import choice
-from card import Card
+from .card import Card
 
 def start_blackjack(deck):
     print("Lazy huh? Lets run a round of blackjack")
@@ -51,7 +51,7 @@ def start_blackjack(deck):
         pause()
 
     # check winner
-    check_winner(player_total, dealer_total)
+    print(check_winner(player_total, dealer_total))
 
 # print dealer cards and player cards depending on turn
 def print_table(player_cards, dealer_cards, players_turn):
@@ -140,15 +140,15 @@ def check_dealer_total(dealer_total):
 
 def check_winner(player_total, dealer_total):
     if player_total > dealer_total:
-        print("You win!")
+        return "You win!"
     elif player_total < dealer_total:
-        print("Dealer wins!")
+        return "Dealer wins!"
     else:
-        print("A tie is practically a loss")
+        return "A tie is practically a loss"
 
 def pause():
     print("Press Enter to continue...")
     input()
 
-start_blackjack(Card.generate_deck())
+# start_blackjack(Card.generate_deck())
 # python src/blackjack/blackjack.py

@@ -1,5 +1,5 @@
 import pytest
-from src.blackjack import Card
+from src.blackjack import Card, check_player_total, check_dealer_total, check_winner
 
 # python -m pytest tests/test_blackjack.py
 
@@ -38,19 +38,29 @@ class TestCard:
 
         card = Card.pick_card(deck)
 
-        assert len(deck) == initial_length - 1
+        assert len(deck) == initial_length-1
+        assert isinstance(card, Card)
         assert card not in deck
 
 """
 Don't think we can test user input functions
 """
 # Test cases for game logic and function of blackjack
-# class TestBlackjack:
-#     def test_hit_stand(self):
-#         # test hit and stand logic
-#         deck = Card.generate_deck()
-#         player_cards = [Card("Hearts", 5), Card("Diamonds", 7)]
-#         deck.remove(player_cards[0])
-#         deck.remove(player_cards[1])
+class TestBlackjack:
+    def test_check_player_total(self):
+        # test math logic for player total
+        assert check_player_total(21) == True
+        assert check_player_total(22) == True
+        assert check_player_total(20) == False
 
-#         player_total = sum(card.num for card in player_cards)
+    def test_check_dealer_total(self):
+        # test math logic for dealer total
+        assert check_dealer_total(21) == True
+        assert check_dealer_total(22) == True
+        assert check_dealer_total(20) == False
+
+    def test_check_winner(self):
+        # test winner logic
+        assert check_winner(20, 19) == 'You win!'
+        assert check_winner(19, 20) == 'Dealer wins!'
+        assert check_winner(20, 20) == 'A tie is practically a loss'
