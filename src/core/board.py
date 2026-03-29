@@ -1,6 +1,6 @@
 """
-    This file contains basic board classes and functions
-    for simple 2d games that can run on the terminal
+    * This file contains basic board classes and functions for simple 2d games that can run on the terminal
+    * in particular, board class and scrollingBoard class are implemented
 """
 
 class Board:
@@ -103,9 +103,9 @@ class Board:
         newBoard.grid = [row[:] for row in self.grid]
         return newBoard
 
-# is board but with a scrollLeft method
+# board but with a scrollLeft method
 class ScrollingBoard(Board):
-    def scrollLeft(self, fill=None, step=1):
+    def scrollLeft(self, fill=None, step=1, addedCells=None):
         # Scroll the board left by a certain number of steps, filling new space with fill character
         if fill is None:
             fill = self.fill
@@ -114,3 +114,11 @@ class ScrollingBoard(Board):
                 self.grid[r][c] = self.grid[r][c + step]  # shift left
             for c in range(self.cols - step, self.cols):
                 self.grid[r][c] = fill  # fill new rightmost cells
+        # add new cells if provided (list of strings, one per row)
+        if addedCells is not None:
+            for r in range(min(self.rows, len(addedCells))):
+                line = addedCells[r]
+                for c in range(min(self.cols, len(line))):
+                    self.grid[r][self.cols - step + c] = line[c]  # add new content on right
+
+# scrollUp, scrollDown, scrollRight can be implemented similarly if needed
