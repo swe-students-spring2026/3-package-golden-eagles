@@ -84,6 +84,14 @@ def check_dealer_total(dealer_total):
         return True
     return False
 
+def check_winner(player_total, dealer_total):
+    if player_total > dealer_total:
+        print("You win!")
+    elif player_total < dealer_total:
+        print("Dealer wins!")
+    else:
+        print("A tie is practically a loss")
+
 def pause():
     print("Press Enter to continue...")
     input()
