@@ -15,6 +15,7 @@ def start_blackjack(deck):
     print_table(player_cards, dealer_cards, True)
 
     player_total = sum(card.num for card in player_cards)
+    print(f"first check {player_total}")
     if(check_player_total(player_total)):
         return
     while True:
@@ -57,8 +58,12 @@ def hit_stand(player_total, player_cards, deck):
             new_card = Card.pick_card(deck)
             player_cards.append(new_card)
             player_total += new_card.num
+
             print("You drew:")
             print(new_card.print_card())
+            print(f"Your new total is {player_total}")
+            if(check_player_total(player_total)):
+                return False
             return True
         elif x.upper() == "D":
             print("You stand")
@@ -67,6 +72,7 @@ def hit_stand(player_total, player_cards, deck):
             print("Invalid input: Enter 'A' for hit or 'D' for stand")
 
 def check_player_total(player_total):
+    print("Checking here")
     if(player_total == 21):
         print("Blackjack! You win!")
         return True
