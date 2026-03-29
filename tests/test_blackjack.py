@@ -41,7 +41,19 @@ class TestCard:
         assert len(deck) == initial_length - 1
         assert card not in deck
 
+"""
+Don't think we can test user input functions
+"""
 # Test cases for game logic and function of blackjack
 # class TestBlackjack:
-#     def test_start_blackjack(self, capsys):
+#     def test_hit_stand(self):
+#         # test hit and stand logic
+#         deck = Card.generate_deck()
+#         player_cards = [Card("Hearts", 5), Card("Diamonds", 7)]
+#         deck.remove(player_cards[0])
+#         deck.remove(player_cards[1])
+
+#         player_total = sum(card.num for card in player_cards)
+
+
 

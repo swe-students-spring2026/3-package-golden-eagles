@@ -20,21 +20,31 @@ def start_blackjack(deck):
             break
         print_table(player_cards, dealer_cards, True)
 
-
 def print_table(player_cards, dealer_cards, players_turn):
     if(players_turn):
         print("Dealers:")
-        for card in dealer_cards:
-            print(card.print_card())
-        print(Card.print_blank())
+        split_cards = [dealer_cards[0].print_card().split('\n'), Card.print_blank().split('\n')]
+        for index in range(len(split_cards[0])):
+            line = ""
+            for card in split_cards:
+                line += card[index] + "   "
+            print(line)
     else:
-        print("Dealers:")
-        for card in dealer_cards:
-            print(card.print_card())
+        split_cards = list(map(lambda card: ard.print_card().split('\n'), dealer_cards))
+        for index in range(len(split_cards[0])):
+            line = ""
+            for card in split_cards:
+                line += card[index] + "   "
+            print(line)
 
     print("Your cards:")
-    for card in player_cards:
-        print(card.print_card())
+    split_cards = list(map(lambda card: card.print_card().split('\n'), player_cards))
+    for index in range(len(split_cards[0])):
+        line = ""
+        for card in split_cards:
+            line += card[index] + "   "
+        print(line)
+        
 
 def hit_stand(player_total, player_cards, deck):
     while True:
