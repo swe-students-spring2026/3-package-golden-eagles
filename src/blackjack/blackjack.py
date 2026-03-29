@@ -14,6 +14,13 @@ def start_blackjack(deck):
     dealer_cards = [dealer_card_shown]
     print_table(player_cards, dealer_cards, True)
 
+    player_total = sum(card.num for card in player_cards)
+    while True:
+        if not hit_stand(player_total, player_cards, deck):
+            break
+        print_table(player_cards, dealer_cards, True)
+
+
 def print_table(player_cards, dealer_cards, players_turn):
     if(players_turn):
         print("Dealers:")
@@ -29,21 +36,27 @@ def print_table(player_cards, dealer_cards, players_turn):
     for card in player_cards:
         print(card.print_card())
 
-def stand_hit(player_total, deck):
+def hit_stand(player_total, player_cards, deck):
     while True:
-        print("Hit or Stand? (H-hit/X-stand)")
+        print("Hit or Stand? (A-hit/D-stand)")
         x = input()
 
-        if x.upper() == "H":
+        if x.upper() == "A":
             new_card = Card.pick_card(deck)
+            player_cards.append(new_card)
             player_total += new_card.num
             print("You drew:")
             print(new_card.print_card())
-
-        elif x.upper() == "X":
-            return "stand"
+            return True
+        elif x.upper() == "D":
+            print("You stand")
+            return False
         else:
-            print("Invalid input: Enter 'H' for hit or 'X' for stand")
+            print("Invalid input: Enter 'A' for hit or 'D' for stand")
+        
+def pause():
+    print("Press Enter to continue...")
+    input()
 
 start_blackjack(Card.generate_deck())
 # python src/blackjack/blackjack.py
