@@ -9,12 +9,15 @@ This repository is in active development for the course package exercise.
 
 - **Blackjack**:
 - **Tetris**:A terminal-based Tetris module with reusable core logic for board creation, piece spawning, rotation, placement, collision checks, row clearing, and a playable curses-based demo.
+- **Blackjack**: Plays a simple game of blackjack wihtin the terminal given the user and the dealer
+- **Tetris**:
 - **Snake**: Grid-based snake movement with growth, food spawning, and collision rules.
 - **Minesweeper**:
 - **Dino Game**:
 
 ## Current Progress
 
+- `blackjack` nearly completed, missing two special functions surrounding split hands and the ace
 - `core` default library containing basic class and functions
 - `minefield` module exists with core functions and a terminal game loop.
 - `snake` basics are started with importable core logic in `src/snake/core.py`.

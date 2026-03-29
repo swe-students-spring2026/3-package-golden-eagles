@@ -1,12 +1,18 @@
-import random 
+""" Core functions for the minesweeper game, including
+board creation, revealing cells, and checking win conditions.
+"""
+
+import random
 
 def create_board(rows, cols, num_mines):
-    """
-    Creates a minefield board with randomly placed mines this is hidden from the player. The board is represented as a 2D list, where 'M' represents a mine and '.' represents an empty cell.
+    """Create a minefield board with randomly placed mines hidden from the player.
+
+    The board is represented as a 2D list, where 'M' represents a mine and '.'
+    represents an empty cell.
     """
     if num_mines > rows * cols:
         raise ValueError("Number of mines cannot exceed the total number of cells.")
-    
+
     board =[[ '.' for _ in range(cols)] for _ in range(rows)]
     positions = random.sample(range(rows * cols), num_mines)
 
@@ -45,8 +51,8 @@ def reveal_cell(board, visible_board, row, col):
     if board[row][col] == 'M':
         visible_board[row][col] = 'M'
         return False
-    
-    visible_board[row][col] = str(count_adjacent_mines(board, row, col))    
+
+    visible_board[row][col] = str(count_adjacent_mines(board, row, col))
     return True
 
 
@@ -54,9 +60,13 @@ def check_win(board, visible_board):
     """
     Player wins if all non-mine cells are revealed.
     """
-    for i in range(len(board)):
-        for j in range(len(board[0])):
-            if board[i][j] != 'M' and visible_board[i][j] == '#':
+    for i, row in enumerate(board):
+        for j, cell in enumerate(row):
+            if cell != 'M' and visible_board[i][j] == '#':
                 return False
- 
+    # for i in range(len(board)):
+    #     for j in range(len(board[0])):
+    #         if board[i][j] != 'M' and visible_board[i][j] == '#':
+    #             return False
+
     return True
