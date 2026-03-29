@@ -54,6 +54,3 @@ Don't think we can test user input functions
 #         deck.remove(player_cards[1])
 
 #         player_total = sum(card.num for card in player_cards)
-
-
-
