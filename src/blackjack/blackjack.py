@@ -25,6 +25,8 @@ def start_blackjack(deck):
     while True:
         player_total = hit_stand(player_total, player_cards, deck)
         if(not player_total):
+            print("Dealers turn\n")
+            pause()
             break
         if(check_player_total(player_total)):
             return
@@ -32,7 +34,6 @@ def start_blackjack(deck):
         print_table(player_cards, dealer_cards, True)
     
     # check dealer blackjack or bust
-    print("Dealers turn")
     dealer_cards.append(dealer_card_hidden)
     dealer_total = sum(card.num for card in dealer_cards)
     if(check_dealer_total(dealer_total)):
@@ -41,6 +42,7 @@ def start_blackjack(deck):
     # dealer turn
     while True:
         print_table(player_cards, dealer_cards, False)
+        pause()
         dealer_total = dealer_turn(dealer_cards, dealer_total, deck)
         if(not dealer_total):
             break
@@ -49,7 +51,6 @@ def start_blackjack(deck):
         pause()
 
     # check winner
-    print_table(player_cards, dealer_cards, False)
     check_winner(player_total, dealer_total)
 
 
@@ -63,7 +64,7 @@ def print_table(player_cards, dealer_cards, players_turn):
                 line += card[index] + "   "
             print(line)
     else:
-        split_cards = list(map(lambda card: ard.print_card().split('\n'), dealer_cards))
+        split_cards = list(map(lambda card: card.print_card().split('\n'), dealer_cards))
         for index in range(len(split_cards[0])):
             line = ""
             for card in split_cards:
@@ -116,7 +117,6 @@ def dealer_turn(dealer_cards, dealer_total, deck):
             return False
 
 def check_player_total(player_total):
-    print("Checking here")
     if(player_total == 21):
         print("Blackjack! You win!")
         return True
