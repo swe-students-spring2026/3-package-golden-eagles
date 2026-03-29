@@ -4,6 +4,7 @@ class Card():
     def __init__(self, suit, num):
         self.suit = suit
         self.num = num
+        self.is_ace = num == 1
 
     @staticmethod
     def generate_deck():
@@ -41,7 +42,10 @@ class Card():
         }
 
         suit = suits[self.suit]
-        num = royal.get(self.num, str(self.num))
+        if(self.is_ace):
+            num = "A"
+        else:
+            num = royal.get(self.num, str(self.num))
 
         # can make them specific for every number but this works for now
         if(num == "10"):
