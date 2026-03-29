@@ -80,9 +80,22 @@ class Board:
                     self.setCell(row + r, col + c, ch)  # overwrite
                     
 
-    def render(self):
-        # Return the board as a printable string
-        return "\n".join("".join(row) for row in self.grid)
+    def render(self, row=0, col=0):
+        # Return the board as a printable string (allow partial printing)
+        if height is None:
+            height = self.rows - row
+        if width is None:
+            width = self.cols - col
+
+        # returns full board if no row or col specified
+        area = self.getArea(row, col, height, width)
+
+        lines = []
+        for line in area:
+            lines.append("".join(self.fill if cell is None else cell for cell in line))
+
+        return "\n".join(lines)
+
 
     def copy(self):
         # Return a deep copy of the board
