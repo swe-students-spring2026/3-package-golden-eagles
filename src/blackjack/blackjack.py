@@ -5,27 +5,57 @@ def start_blackjack(deck):
     print("Lazy huh? Lets run a round of blackjack")
     print("Dealing cards...")
 
+    # pick cards
     player_card1 = Card.pick_card(deck)
     dealer_card_shown = Card.pick_card(deck)
     player_card2 = Card.pick_card(deck)
     dealer_card_hidden = Card.pick_card(deck)
 
+    # help print the cards
     player_cards = [player_card1, player_card2]
     dealer_cards = [dealer_card_shown]
     print_table(player_cards, dealer_cards, True)
 
+    # check for blackjack or bust
     player_total = sum(card.num for card in player_cards)
-    print(f"first check {player_total}")
     if(check_player_total(player_total)):
         return
+    
+    # player turn
     while True:
-        if not hit_stand(player_total, player_cards, deck):
+        player_total = hit_stand(player_total, player_cards, deck)
+        if(not player_total):
             break
+        if(check_player_total(player_total)):
+            return
+        pause()
         print_table(player_cards, dealer_cards, True)
+    
+    # check dealer blackjack or bust
+    print("Dealers turn")
+    dealer_cards.append(dealer_card_hidden)
+    dealer_total = sum(card.num for card in dealer_cards)
+    if(check_dealer_total(dealer_total)):
+        return
+
+    # dealer turn
+    while True:
+        print_table(player_cards, dealer_cards, False)
+        dealer_total = dealer_turn(dealer_cards, dealer_total, deck)
+        if(not dealer_total):
+            break
+        if(check_dealer_total(dealer_total)):
+            return
+        pause()
+
+    # check winner
+    print_table(player_cards, dealer_cards, False)
+    check_winner(player_total, dealer_total)
+
 
 def print_table(player_cards, dealer_cards, players_turn):
+    print("Dealers:")
     if(players_turn):
-        print("Dealers:")
         split_cards = [dealer_cards[0].print_card().split('\n'), Card.print_blank().split('\n')]
         for index in range(len(split_cards[0])):
             line = ""
@@ -58,18 +88,32 @@ def hit_stand(player_total, player_cards, deck):
             new_card = Card.pick_card(deck)
             player_cards.append(new_card)
             player_total += new_card.num
+            # print(f"new card {new_card.suit} {new_card.num}")
 
             print("You drew:")
             print(new_card.print_card())
-            print(f"Your new total is {player_total}")
-            if(check_player_total(player_total)):
-                return False
-            return True
+            # print(f"Your new total is {player_total}")
+            return player_total
         elif x.upper() == "D":
             print("You stand")
             return False
         else:
             print("Invalid input: Enter 'A' for hit or 'D' for stand")
+
+def dealer_turn(dealer_cards, dealer_total, deck):
+    while True:
+        if(dealer_total < 17):
+            new_card = Card.pick_card(deck)
+            dealer_cards.append(new_card)
+            dealer_total += new_card.num
+
+            print("Dealer hits")
+            print("Dealer drew:")
+            print(new_card.print_card())
+            return dealer_total
+        else:
+            print("Dealer stands")
+            return False
 
 def check_player_total(player_total):
     print("Checking here")
