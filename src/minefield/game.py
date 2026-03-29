@@ -1,4 +1,5 @@
-from .core import create_board, reveal_board, count_adjacent_mines, check_win, reveal_cell
+"""This module contains the main game loop and functions to be run as a package."""
+from .core import create_board, reveal_board, check_win, reveal_cell
 
 def print_board(board):
     """
@@ -41,7 +42,7 @@ def play_game():
             print_board(visible_board)
             print("Game Over! You hit a mine.")
             break
-        
+
         if check_win(board, visible_board):
             print_board(visible_board)
             print("Congratulations! You've cleared the minefield!")
