@@ -53,9 +53,11 @@ def start_blackjack(deck):
     # check winner
     check_winner(player_total, dealer_total)
 
-
+# print dealer cards and player cards depending on turn
 def print_table(player_cards, dealer_cards, players_turn):
+    # dealer
     print("Dealers:")
+    # if dealer 2nd card must still be hidden 
     if(players_turn):
         split_cards = [dealer_cards[0].print_card().split('\n'), Card.print_blank().split('\n')]
         for index in range(len(split_cards[0])):
@@ -63,6 +65,7 @@ def print_table(player_cards, dealer_cards, players_turn):
             for card in split_cards:
                 line += card[index] + "   "
             print(line)
+    # dealers turn so show all cards
     else:
         split_cards = list(map(lambda card: card.print_card().split('\n'), dealer_cards))
         for index in range(len(split_cards[0])):
@@ -71,6 +74,7 @@ def print_table(player_cards, dealer_cards, players_turn):
                 line += card[index] + "   "
             print(line)
 
+    # player
     print("Your cards:")
     split_cards = list(map(lambda card: card.print_card().split('\n'), player_cards))
     for index in range(len(split_cards[0])):

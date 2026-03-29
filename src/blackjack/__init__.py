@@ -1,3 +1,0 @@
-from .card import (
-    Card
-)
