@@ -1,5 +1,5 @@
 from random import choice
-from .card import Card
+from src.blackjack.card import Card
 
 # check player total for blackjack or bust
 def check_player_total(player_total):
@@ -60,12 +60,26 @@ def print_table(player_cards, dealer_cards, players_turn=False):
 
     # player
     print("Your cards:")
-    split_cards = list(map(lambda card: card.print_card().split('\n'), player_cards))
-    for index in range(len(split_cards[0])):
-        line = ""
-        for card in split_cards:
-            line += card[index] + "   "
-        print(line)
+    if(isinstance(player_cards, list) and all(isinstance(hand, list) for hand in player_cards)):
+        hand_num = 1
+        for hand in player_cards:
+            print(f"Hand {hand_num}:")
+            hand_num += 1
+
+            split_cards = list(map(lambda card: card.print_card().split('\n'), hand))
+            for index in range(len(split_cards[0])):
+                line = ""
+                for card in split_cards:
+                    line += card[index] + "   "
+                print(line)
+    else:
+        split_cards = list(map(lambda card: card.print_card().split('\n'), player_cards))
+        for index in range(len(split_cards[0])):
+            line = ""
+            for card in split_cards:
+                line += card[index] + "   "
+            print(line)
+
 
 # ace can be 1 or 11 
 def change_ace_value(total, cards, is_dealer=False):
@@ -165,6 +179,9 @@ def start_blackjack(deck):
     if(check_player_total(player_total)):
         return
     
+    player_cards = [Card("Hearts", 5), Card("Clubs", 5)]
+    player_cards = split_hand(player_cards, deck)
+
     # player turn
     while True:
         did_player_stand = player_total
@@ -204,8 +221,9 @@ def start_blackjack(deck):
     # check winner
     print(check_winner(change_ace_value(player_total, player_cards), dealer_total))
 
-# start_blackjack(Card.generate_deck())
-# python src/blackjack/blackjack.py
+if __name__ == '__main__':
+    start_blackjack(Card.generate_deck())
+# python -m src.blackjack.game
 
 # when dealer blackjacks off first two cards
 # user desnt even see them
