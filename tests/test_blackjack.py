@@ -1,7 +1,8 @@
 import pytest
-from src.blackjack import Card, check_player_total, check_dealer_total, check_winner
+from src.blackjack import Card, check_player_total, check_dealer_total, check_winner, change_ace_value
 
 # python -m pytest tests/test_blackjack.py
+# when testing make sure start_blackjack is not being called in blackjack.py
 
 # Test cases for the card class and deck generation
 class TestCard:
@@ -31,6 +32,19 @@ class TestCard:
             assert isinstance(card, Card)
             assert card.suit in ["Hearts", "Diamonds", "Clubs", "Spades"]
             assert card.num in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
+    
+    def test_blackjack_value(self):
+        deck = Card.generate_deck()
+        Card.blackjack_value(deck)
+
+        for card in deck:
+            assert isinstance(card, Card)
+            assert card.suit in ["Hearts", "Diamonds", "Clubs", "Spades"]
+            assert card.num in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+            if(card.is_face):
+                assert card.num == 10
+            if(card.is_ace):
+                assert card.num == 1
 
     def test_pick_card(self):
         deck = Card.generate_deck()
@@ -64,3 +78,54 @@ class TestBlackjack:
         assert check_winner(20, 19) == 'You win!'
         assert check_winner(19, 20) == 'Dealer wins!'
         assert check_winner(20, 20) == 'A tie is practically a loss'
+
+    def test_change_ace_value_player(self):
+        # This first half is for player
+        # test ace is not 11 when it would go over
+        cards = [Card('Hearts', 1), Card('Hearts', 10),  Card('Hearts', 1)]
+        total = sum(card.num for card in cards)
+        assert change_ace_value(total, cards) == 12
+
+        # test ace is 11 to reach 21
+        cards = [Card('Hearts', 1), Card('Hearts', 10)]
+        total = sum(card.num for card in cards)
+        assert change_ace_value(total, cards) == 21
+
+        # test ace is 1 to reach 21
+        cards = [Card('Hearts', 1), Card('Hearts', 10), Card('Clubs', 10)]
+        total = sum(card.num for card in cards)
+        assert change_ace_value(total, cards) == 21
+    
+        # test no ace
+        cards = [Card('Hearts', 10), Card('Hearts', 10)]
+        total = sum(card.num for card in cards)
+        assert change_ace_value(total, cards) == 20
+    
+    def test_change_ace_value_dealer(self):
+        # 2nd half is for dealer
+        # test ace is 11 when total becomes 17 or more
+        for i in range(6, 9):
+            cards = [Card('Hearts', 1), Card('Hearts', i)]
+            total = sum(card.num for card in cards)
+            temp = change_ace_value(total, cards, True)
+            assert temp >= 17 and temp <= 21
+
+        # test ace is not 11 when it would go over
+        cards = [Card('Hearts', 1), Card('Hearts', 10), Card('Hearts', 1)]
+        total = sum(card.num for card in cards)
+        assert change_ace_value(total, cards, True) == 12
+
+        # test ace is 11 to reach 21
+        cards = [Card('Hearts', 1), Card('Hearts', 10)]
+        total = sum(card.num for card in cards)
+        assert change_ace_value(total, cards, True) == 21
+
+        # test ace is 1 to reach 21
+        cards = [Card('Hearts', 1), Card('Hearts', 10), Card('Clubs', 10)]
+        total = sum(card.num for card in cards)
+        assert change_ace_value(total, cards, True) == 21
+    
+        # test no ace
+        cards = [Card('Hearts', 10), Card('Hearts', 10)]
+        total = sum(card.num for card in cards)
+        assert change_ace_value(total, cards, True) == 20
