@@ -2,19 +2,12 @@ from random import choice
 from src.blackjack.card import Card
 
 # check player total for blackjack or bust
-def check_player_total(player_total, is_split=False):
-    if(is_split):
-        if(player_total == 21):
-            return True
-        if player_total > 21:
-            return False
-        return None
-
+def check_player_total(player_total):
     if(player_total == 21):
-        print("Blackjack! You win!")
+        print("Blackjack! This hand wins!")
         return True
     if player_total > 21:
-        print("Bust. You lose!")
+        print("This hand's a bust!")
         return True
     return False
 
@@ -33,9 +26,9 @@ def check_winner(player_total, dealer_total):
     print(f"Player total end: {player_total}")
     print(f"Dealer total end: {dealer_total}")
     if player_total > dealer_total:
-        return "You win!"
+        return "You hand wins!"
     elif player_total < dealer_total:
-        return "Dealer wins!"
+        return "Your hand loses"
     else:
         return "A tie is practically a loss"
 
@@ -90,7 +83,7 @@ def print_split_hand(player_cards):
 
 def print_table(player_cards, dealer_cards, players_turn=False):
     print_dealer_hand(player_cards, dealer_cards, players_turn)
-    if(len(player_cards) > 1):
+    if(isinstance(player_cards[0], list)):
         print_split_hand(player_cards)
     else:
         print_player_hand(player_cards)
@@ -109,6 +102,10 @@ def change_ace_value(total, cards, is_dealer=False):
             card.num = 11
             return total + 10
     return total
+
+def change_ace_value_split(hands_totals, hands):
+    for index in range(len(hands)):
+        hands_totals[index] = change_ace_value(hands_totals[index], hands[index])
 
 # split hand 
 def split_hand(player_cards, deck):
@@ -158,7 +155,7 @@ def player_turn(player_cards, dealer_cards, deck):
     player_total = change_ace_value(player_total, player_cards)
 
     if(check_player_total(player_total)):
-        return
+        return 
     
     while True:
         did_player_stand = player_total
@@ -167,7 +164,6 @@ def player_turn(player_cards, dealer_cards, deck):
         if(check_player_total(player_total)):
             return
         if(did_player_stand == player_total):
-            print("Dealers turn\n")
             pause()
             break
         pause()
@@ -228,26 +224,33 @@ def start_blackjack(deck):
     # help print the cards
     player_cards = [player_card1, player_card2]
     dealer_cards = [dealer_card_shown, dealer_card_hidden]
-    print_table([player_cards], dealer_cards, True)
+    print_table(player_cards, dealer_cards, True)
     
     player_cards = [Card("Hearts", 5), Card("Clubs", 5)]
     player_cards = split_hand(player_cards, deck)
-    if(len(player_cards) > 1):
+
+    is_split = len(player_cards) > 1
+    if(is_split):
         print_table(player_cards, dealer_cards, True)
+        pause()
 
     # player turn
+    hands_totals = []
     for hand in player_cards:
+        # not split hands
         if(len(player_cards) == 1):
             player_total = player_turn(hand, dealer_cards, deck)
             if(player_total is None):
                 return
+            
+        # split hands
         else:
             print(f"\n----------------------------\nPlaying hand {player_cards.index(hand) + 1}")
             print_table(hand, dealer_cards, True)
             player_total = player_turn(hand, dealer_cards, deck)
             if(player_total is None):
-                return
-
+                pause()
+            hands_totals.append(player_total)
 
     # player_total = player_turn(player_cards, dealer_cards, deck)
     # if(player_total is None):
@@ -255,6 +258,7 @@ def start_blackjack(deck):
     
     # check dealer blackjack or bust
     # check initial total before ace is changed to 11
+    print("Dealers turn\n")
     print("Unveiling dealers hidden card")
     print_table(player_cards, dealer_cards)
     pause()
@@ -265,7 +269,14 @@ def start_blackjack(deck):
         return
 
     # check winner
-    print(check_winner(change_ace_value(player_total, player_cards), dealer_total))
+    if(is_split):
+        change_ace_value_split(hands_totals, player_cards)
+        for index in range(len(player_cards)):
+            print(f"\n----------------------------\nHand {index + 1}")
+            print(check_winner(change_ace_value(hands_totals[index], player_cards[index]), dealer_total))
+    else:
+        print(check_winner(change_ace_value(player_total, player_cards), dealer_total))
+
 
 if __name__ == '__main__':
     start_blackjack(Card.generate_deck())
