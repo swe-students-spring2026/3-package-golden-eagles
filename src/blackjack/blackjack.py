@@ -1,5 +1,5 @@
 from random import choice
-from card import Card
+from .card import Card
 
 # check player total for blackjack or bust
 def check_player_total(player_total):
@@ -196,7 +196,7 @@ def start_blackjack(deck):
     # check winner
     print(check_winner(ace_check(player_total, player_cards), dealer_total))
 
-start_blackjack(Card.generate_deck())
+# start_blackjack(Card.generate_deck())
 # python src/blackjack/blackjack.py
 
 # when dealer blackjacks off first two cards

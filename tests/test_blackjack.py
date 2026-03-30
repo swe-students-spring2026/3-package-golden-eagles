@@ -1,7 +1,8 @@
 import pytest
-from src.blackjack import Card, check_player_total, check_dealer_total, check_winner
+from src.blackjack import Card, check_player_total, check_dealer_total, check_winner, ace_check, change_ace_value
 
 # python -m pytest tests/test_blackjack.py
+# when testing make sure start_blackjack is not being called in blackjack.py
 
 # Test cases for the card class and deck generation
 class TestCard:
@@ -31,6 +32,19 @@ class TestCard:
             assert isinstance(card, Card)
             assert card.suit in ["Hearts", "Diamonds", "Clubs", "Spades"]
             assert card.num in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
+    
+    def test_blackjack_value(self):
+        deck = Card.generate_deck()
+        Card.blackjack_value(deck)
+
+        for card in deck:
+            assert isinstance(card, Card)
+            assert card.suit in ["Hearts", "Diamonds", "Clubs", "Spades"]
+            assert card.num in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+            if(card.is_face):
+                assert card.num == 10
+            if(card.is_ace):
+                assert card.num == 1
 
     def test_pick_card(self):
         deck = Card.generate_deck()
@@ -64,3 +78,30 @@ class TestBlackjack:
         assert check_winner(20, 19) == 'You win!'
         assert check_winner(19, 20) == 'Dealer wins!'
         assert check_winner(20, 20) == 'A tie is practically a loss'
+
+    def test_ace_check_(self):
+        # test ace is 11 when being 11 means its closer to 21 without going over
+        cards = [Card('Hearts',1), Card('Hearts', 5)]
+        total = sum(card.num for card in cards)
+        assert ace_check(total, cards) == 16
+
+        # test ace is not 11 when it would go over
+        cards = [Card('Hearts',1), Card('Hearts', 11)]
+        total = sum(card.num for card in cards)
+        assert ace_check(total, cards) == total
+
+        # test ace is 11 to reach 21
+        cards = [Card('Hearts',1), Card('Hearts', 10)]
+        total = sum(card.num for card in cards)
+        assert ace_check(total, cards) == 21
+
+        # test ace is 1 to reach 21
+        cards = [Card('Hearts',1), Card('Hearts', 10), Card('Clubs', 10)]
+        total = sum(card.num for card in cards)
+        assert ace_check(total, cards) == 21
+    
+        # test no ace
+        cards = [Card('Hearts', 10), Card('Hearts', 10)]
+        total = sum(card.num for card in cards)
+        assert ace_check(total, cards) == 20
+    
