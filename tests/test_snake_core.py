@@ -1,6 +1,7 @@
 import pathlib
 import sys
 import random
+import pytest
 
 
 PROJECT_ROOT = pathlib.Path(__file__).resolve().parents[1]
@@ -22,10 +23,45 @@ def test_create_game_state_defaults():
     assert state["food"] not in state["snake"]
 
 
+def test_create_game_state_invalid_inputs():
+    with pytest.raises(ValueError):
+        create_game_state(width=3, height=8)
+
+    with pytest.raises(ValueError):
+        create_game_state(width=8, height=3)
+
+    with pytest.raises(ValueError):
+        create_game_state(width=8, height=8, start_length=1)
+
+    with pytest.raises(ValueError):
+        create_game_state(width=5, height=8, start_length=6)
+
+
 def test_change_direction_prevents_reverse():
     assert change_direction("RIGHT", "LEFT") == "RIGHT"
     assert change_direction("UP", "DOWN") == "UP"
     assert change_direction("left", "up") == "UP"
+
+
+def test_change_direction_valid():
+    assert change_direction("RIGHT", "UP") == "UP"
+    assert change_direction("UP", "LEFT") == "LEFT"
+    assert change_direction("LEFT", "DOWN") == "DOWN"
+    assert change_direction("DOWN", "RIGHT") == "RIGHT"
+
+
+def test_change_direction_invalid_inputs():
+    with pytest.raises(ValueError):
+        change_direction("RIGHT", "DIAGONAL")
+
+    with pytest.raises(ValueError):
+        change_direction("FORWARD", "LEFT")
+
+    with pytest.raises(TypeError):
+        change_direction("UP", None)
+
+    with pytest.raises(TypeError):
+        change_direction(123, "LEFT")
 
 
 def test_tick_moves_snake_one_step():
@@ -86,6 +122,8 @@ def test_spawn_food_board_full():
     food = spawn_food(width, height, snake, random_generator)
 
     assert food is None
+    assert len(snake) == 4
+    assert snake[0] == (0, 0)
 
 
 def test_tick_sets_game_over_on_self_collision():
@@ -99,3 +137,15 @@ def test_tick_sets_game_over_on_self_collision():
     assert next_state["game_over"] is True
     assert next_state["score"] == 0
     assert next_state["direction"] == "DOWN"
+    assert len(next_state["snake"]) == 5
+    assert next_state["snake"][0] == (5, 5)
+
+
+def test_tick_invalid_requested_direction_raises():
+    state = create_game_state(width=8, height=8, start_length=3, seed=7)
+
+    with pytest.raises(ValueError):
+        tick(state, requested_direction="DIAGONAL")
+
+    with pytest.raises(TypeError):
+        tick(state, requested_direction=0)
