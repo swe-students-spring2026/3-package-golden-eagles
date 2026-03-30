@@ -37,6 +37,10 @@ def pause():
     print("Press Enter to continue...")
     input()
 
+# helper to check 2D array 
+def is_2d(arr):
+    return isinstance(arr, list) and all(isinstance(i, list) for i in arr)
+
 # print dealer cards and player cards depending on turn
 def print_table(player_cards, dealer_cards, players_turn=False):
     # dealer
@@ -60,25 +64,12 @@ def print_table(player_cards, dealer_cards, players_turn=False):
 
     # player
     print("Your cards:")
-    if(isinstance(player_cards, list) and all(isinstance(hand, list) for hand in player_cards)):
-        hand_num = 1
-        for hand in player_cards:
-            print(f"Hand {hand_num}:")
-            hand_num += 1
-
-            split_cards = list(map(lambda card: card.print_card().split('\n'), hand))
-            for index in range(len(split_cards[0])):
-                line = ""
-                for card in split_cards:
-                    line += card[index] + "   "
-                print(line)
-    else:
-        split_cards = list(map(lambda card: card.print_card().split('\n'), player_cards))
-        for index in range(len(split_cards[0])):
-            line = ""
-            for card in split_cards:
-                line += card[index] + "   "
-            print(line)
+    split_cards = list(map(lambda card: card.print_card().split('\n'), player_cards))
+    for index in range(len(split_cards[0])):
+        line = ""
+        for card in split_cards:
+            line += card[index] + "   "
+        print(line)
 
 
 # ace can be 1 or 11 
@@ -113,7 +104,7 @@ def split_hand(player_cards, deck):
 
 
 # Player turn, 2 options, hit for new card or stand to end turn
-def hit_stand(player_total, player_cards, deck):
+def player_hit_stand(player_total, player_cards, deck):
     while True:
         print("Hit or Stand? (A-hit/D-stand)")
         x = input()
@@ -137,8 +128,32 @@ def hit_stand(player_total, player_cards, deck):
         else:
             print("Invalid input: Enter 'A' for hit or 'D' for stand")
 
+# play the players turn
+def player_turn(player_cards, dealer_cards, deck):
+    # check for blackjack or bust
+    player_total = sum(card.num for card in player_cards)
+    player_total = change_ace_value(player_total, player_cards)
+
+    if(check_player_total(player_total)):
+        return
+    
+    while True:
+        did_player_stand = player_total
+        player_total = player_hit_stand(player_total, player_cards, deck)
+        player_total = change_ace_value(player_total, player_cards)
+        if(check_player_total(player_total)):
+            return
+        if(did_player_stand == player_total):
+            print("Dealers turn\n")
+            pause()
+            break
+        pause()
+        print_table(player_cards, dealer_cards, True)
+    
+    return player_total
+
 # Dealer turn, automatically hit until 17 or higher then stand
-def dealer_turn(dealer_cards, dealer_total, deck):
+def dealer_hit_stand(dealer_cards, dealer_total, deck):
     while True:
         # hit 
         if(dealer_total < 17):
@@ -154,6 +169,26 @@ def dealer_turn(dealer_cards, dealer_total, deck):
         else:
             print("Dealer stands")
             return dealer_total
+
+# play the dealers turn
+def dealer_turn(player_cards, dealer_cards, deck):
+    dealer_total = sum(card.num for card in dealer_cards)
+    dealer_total = change_ace_value(dealer_total, dealer_cards, True)
+    if(check_dealer_total(dealer_total)):
+        return
+
+    # dealer turn
+    while True:
+        dealer_total = dealer_hit_stand(dealer_cards, dealer_total, deck)
+        dealer_total = change_ace_value(dealer_total, dealer_cards, True)
+        print_table(player_cards, dealer_cards)
+        pause()
+        if(check_dealer_total(dealer_total)):
+            return
+        if(dealer_total >= 17):
+            break
+    
+    return dealer_total
 
 # main game
 def start_blackjack(deck):
@@ -171,30 +206,14 @@ def start_blackjack(deck):
     player_cards = [player_card1, player_card2]
     dealer_cards = [dealer_card_shown, dealer_card_hidden]
     print_table(player_cards, dealer_cards, True)
-
-    # check for blackjack or bust
-    player_total = sum(card.num for card in player_cards)
-    player_total = change_ace_value(player_total, player_cards)
-
-    if(check_player_total(player_total)):
-        return
     
-    player_cards = [Card("Hearts", 5), Card("Clubs", 5)]
-    player_cards = split_hand(player_cards, deck)
+    # player_cards = [Card("Hearts", 5), Card("Clubs", 5)]
+    # player_cards = split_hand(player_cards, deck)
 
     # player turn
-    while True:
-        did_player_stand = player_total
-        player_total = hit_stand(player_total, player_cards, deck)
-        player_total = change_ace_value(player_total, player_cards)
-        if(check_player_total(player_total)):
-            return
-        if(did_player_stand == player_total):
-            print("Dealers turn\n")
-            pause()
-            break
-        pause()
-        print_table(player_cards, dealer_cards, True)
+    player_total = player_turn(player_cards, dealer_cards, deck)
+    if(player_total is None):
+        return
     
     # check dealer blackjack or bust
     # check initial total before ace is changed to 11
@@ -202,21 +221,10 @@ def start_blackjack(deck):
     print_table(player_cards, dealer_cards)
     pause()
 
-    dealer_total = sum(card.num for card in dealer_cards)
-    dealer_total = change_ace_value(dealer_total, dealer_cards, True)
-    if(check_dealer_total(dealer_total)):
-        return
-
     # dealer turn
-    while True:
-        dealer_total = dealer_turn(dealer_cards, dealer_total, deck)
-        dealer_total = change_ace_value(dealer_total, dealer_cards, True)
-        print_table(player_cards, dealer_cards)
-        if(check_dealer_total(dealer_total)):
-            return
-        if(dealer_total >= 17):
-            break
-        pause()
+    dealer_total = dealer_turn(player_cards, dealer_cards, deck)
+    if(dealer_total is None):
+        return
 
     # check winner
     print(check_winner(change_ace_value(player_total, player_cards), dealer_total))
