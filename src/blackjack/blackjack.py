@@ -82,6 +82,22 @@ def change_ace_value(total, cards, is_dealer=False):
             return total + 10
     return total
 
+# split hand 
+def split_hand(player_cards, deck):
+    if(player_cards[0].num == player_cards[1].num):
+        print("Split the pair or Double Down? (A-split/D-double down)")
+        option = input()
+        if option.upper() == "A":
+            hand1 = split_hand([player_cards[0], Card.pick_card(deck)], deck)
+            hand2 = split_hand([player_cards[1], Card.pick_card(deck)], deck)
+            return hand1 + hand2
+        elif option.upper() == "D":
+            return player_cards
+        else:
+            print("Invalid input: Enter 'A' to split or 'D' to double down")
+    return player_cards
+
+
 # Player turn, 2 options, hit for new card or stand to end turn
 def hit_stand(player_total, player_cards, deck):
     while True:
