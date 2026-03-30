@@ -72,8 +72,6 @@ def ace_check(total, cards):
     for card in cards:
         if(card.is_ace and card.num == 1):
             if(total + 10 <= 21 and total + 10 > total):
-                # check
-                print(total + 10)
                 return total + 10
     return total
 
@@ -81,13 +79,16 @@ def ace_check(total, cards):
 def change_ace_value(total, cards, is_dealer=False):
     if(is_dealer):
         for card in cards:
-            if(card.is_ace):
+            if(card.is_ace and total + 10 >= 17 and total + 10 <= 21):
                 card.num = 11
-                return
-
+                return total + 10
+        return total
+    
     for card in cards:
         if(card.is_ace and card.num == 1 and total + 10 == 21):
             card.num = 11
+            return total + 10
+    return total
 
 # Player turn, 2 options, hit for new card or stand to end turn
 def hit_stand(player_total, player_cards, deck):
@@ -121,7 +122,6 @@ def dealer_turn(dealer_cards, dealer_total, deck):
         if(dealer_total < 17):
             new_card = Card.pick_card(deck)
             dealer_cards.append(new_card)
-            change_ace_value(dealer_total, dealer_cards, True)
             dealer_total += new_card.num
 
             print("Dealer hits")
@@ -139,6 +139,7 @@ def start_blackjack(deck):
     print("Dealing cards...")
 
     # pick cards
+    Card.blackjack_value(deck)  
     player_card1 = Card.pick_card(deck)
     dealer_card_shown = Card.pick_card(deck)
     player_card2 = Card.pick_card(deck)
@@ -151,7 +152,7 @@ def start_blackjack(deck):
 
     # check for blackjack or bust
     player_total = sum(card.num for card in player_cards)
-    change_ace_value(player_total, player_cards)
+    player_total = change_ace_value(player_total, player_cards)
 
     if(check_player_total(player_total)):
         return
@@ -160,7 +161,7 @@ def start_blackjack(deck):
     while True:
         did_player_stand = player_total
         player_total = hit_stand(player_total, player_cards, deck)
-        change_ace_value(player_total, player_cards)
+        player_total = change_ace_value(player_total, player_cards)
         if(check_player_total(player_total)):
             return
         if(did_player_stand == player_total):
@@ -175,20 +176,21 @@ def start_blackjack(deck):
     print("Unveiling dealers hidden card")
     print_table(player_cards, dealer_cards)
     pause()
+
     dealer_total = sum(card.num for card in dealer_cards)
-    change_ace_value(dealer_total, dealer_cards, True)
-    dealer_total = sum(card.num for card in dealer_cards)
+    dealer_total = change_ace_value(dealer_total, dealer_cards, True)
     if(check_dealer_total(dealer_total)):
         return
 
     # dealer turn
     while True:
         dealer_total = dealer_turn(dealer_cards, dealer_total, deck)
+        dealer_total = change_ace_value(dealer_total, dealer_cards, True)
+        print_table(player_cards, dealer_cards)
         if(check_dealer_total(dealer_total)):
             return
         if(dealer_total >= 17):
             break
-        print_table(player_cards, dealer_cards)
         pause()
 
     # check winner

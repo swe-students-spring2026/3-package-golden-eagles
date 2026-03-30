@@ -4,7 +4,14 @@ class Card():
     def __init__(self, suit, num):
         self.suit = suit
         self.num = num
-        self.is_ace = num == 1
+        self.is_ace = 'A' if num == 1 else None
+
+        royal = {
+            11: "J",
+            12: "Q",
+            13: "K"
+        }
+        self.is_face = royal.get(self.num) if self.num in royal else None
 
     @staticmethod
     def generate_deck():
@@ -18,6 +25,12 @@ class Card():
                 card = Card(suit, num)
                 deck.append(card)
         return deck
+    
+    @staticmethod
+    def blackjack_value(deck):
+        for card in deck:
+            if card.is_face:
+                card.num = 10
     
     @staticmethod
     def pick_card(deck):
@@ -34,18 +47,13 @@ class Card():
             "Spades": "♠"
         }
 
-        royal = {
-            1: "A",
-            11: "J",
-            12: "Q",
-            13: "K"
-        }
-
         suit = suits[self.suit]
         if(self.is_ace):
-            num = "A"
+            num = self.is_ace
+        elif(self.is_face):
+            num = self.is_face
         else:
-            num = royal.get(self.num, str(self.num))
+            num = str(self.num)
 
         # can make them specific for every number but this works for now
         if(num == "10"):
