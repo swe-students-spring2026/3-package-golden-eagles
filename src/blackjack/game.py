@@ -2,7 +2,14 @@ from random import choice
 from src.blackjack.card import Card
 
 # check player total for blackjack or bust
-def check_player_total(player_total):
+def check_player_total(player_total, is_split=False):
+    if(is_split):
+        if(player_total == 21):
+            return True
+        if player_total > 21:
+            return False
+        return None
+
     if(player_total == 21):
         print("Blackjack! You win!")
         return True
@@ -37,12 +44,8 @@ def pause():
     print("Press Enter to continue...")
     input()
 
-# helper to check 2D array 
-def is_2d(arr):
-    return isinstance(arr, list) and all(isinstance(i, list) for i in arr)
-
 # print dealer cards and player cards depending on turn
-def print_table(player_cards, dealer_cards, players_turn=False):
+def print_dealer_hand(player_cards, dealer_cards, players_turn=False):
     # dealer
     print("Dealers:")
     # if dealer 2nd card must still be hidden 
@@ -62,6 +65,7 @@ def print_table(player_cards, dealer_cards, players_turn=False):
                 line += card[index] + "   "
             print(line)
 
+def print_player_hand(player_cards):
     # player
     print("Your cards:")
     split_cards = list(map(lambda card: card.print_card().split('\n'), player_cards))
@@ -70,7 +74,26 @@ def print_table(player_cards, dealer_cards, players_turn=False):
         for card in split_cards:
             line += card[index] + "   "
         print(line)
+    
+def print_split_hand(player_cards):
+    print("Your cards:")
+    for hand in player_cards:
+        if(len(player_cards) > 1):
+            print(f"Playing hand {player_cards.index(hand) + 1}")
 
+        split_cards = list(map(lambda card: card.print_card().split('\n'), hand))
+        for index in range(len(split_cards[0])):
+            line = ""
+            for card in split_cards:
+                line += card[index] + "   "
+            print(line)
+
+def print_table(player_cards, dealer_cards, players_turn=False):
+    print_dealer_hand(player_cards, dealer_cards, players_turn)
+    if(len(player_cards) > 1):
+        print_split_hand(player_cards)
+    else:
+        print_player_hand(player_cards)
 
 # ace can be 1 or 11 
 def change_ace_value(total, cards, is_dealer=False):
@@ -97,10 +120,10 @@ def split_hand(player_cards, deck):
             hand2 = split_hand([player_cards[1], Card.pick_card(deck)], deck)
             return hand1 + hand2
         elif option.upper() == "D":
-            return player_cards
+            return [player_cards]
         else:
             print("Invalid input: Enter 'A' to split or 'D' to double down")
-    return player_cards
+    return [player_cards]
 
 
 # Player turn, 2 options, hit for new card or stand to end turn
@@ -205,15 +228,30 @@ def start_blackjack(deck):
     # help print the cards
     player_cards = [player_card1, player_card2]
     dealer_cards = [dealer_card_shown, dealer_card_hidden]
-    print_table(player_cards, dealer_cards, True)
+    print_table([player_cards], dealer_cards, True)
     
-    # player_cards = [Card("Hearts", 5), Card("Clubs", 5)]
-    # player_cards = split_hand(player_cards, deck)
+    player_cards = [Card("Hearts", 5), Card("Clubs", 5)]
+    player_cards = split_hand(player_cards, deck)
+    if(len(player_cards) > 1):
+        print_table(player_cards, dealer_cards, True)
 
     # player turn
-    player_total = player_turn(player_cards, dealer_cards, deck)
-    if(player_total is None):
-        return
+    for hand in player_cards:
+        if(len(player_cards) == 1):
+            player_total = player_turn(hand, dealer_cards, deck)
+            if(player_total is None):
+                return
+        else:
+            print(f"\n----------------------------\nPlaying hand {player_cards.index(hand) + 1}")
+            print_table(hand, dealer_cards, True)
+            player_total = player_turn(hand, dealer_cards, deck)
+            if(player_total is None):
+                return
+
+
+    # player_total = player_turn(player_cards, dealer_cards, deck)
+    # if(player_total is None):
+    #     return
     
     # check dealer blackjack or bust
     # check initial total before ace is changed to 11
