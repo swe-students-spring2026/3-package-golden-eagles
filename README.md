@@ -1,4 +1,4 @@
-## Golden Eagles
+# Golden Eagles
 
 ![Build Status](https://img.shields.io/badge/CI-pending-lightgrey)
 
@@ -20,16 +20,60 @@ This repository is in active development for the course package exercise.
 - `blackjack` nearly completed, missing two special functions surrounding split hands and the ace
 - `core` default library containing basic class and functions
 - `minefield` module exists with core functions and a terminal game loop.
-- `snake` basics are started with importable core logic in `src/snake/core.py`.
+- `snake` module exists with importable core logic, unit tests coverage, and a terminal playable version.
 - `tetris` module exists with importable core logic, row-clearing behavior, pytest coverage, and a terminal playable version.
 
-# Module Details
+## Module Details
 
-## BlackJack
+### BlackJack
 
-## Minefield
+### Minefield
 
-## Snake
+### Snake
+
+The Snake module provides reusable core functions for classic Snake game logic and includes a terminal playable version using `curses`.
+
+#### Functions
+
+- `create_game_state(width, height, start_length=3, seed=None)`  
+  Create the initial snake game state.
+
+- `spawn_food(width, height, snake, random_generator)`  
+  Pick a random unoccupied board cell for food.
+
+- `change_direction(current_direction, requested_direction)`  
+  Snake direction change, disallowing immediate reversal.
+
+- `tick(state, requested_direction=None)`  
+  Advance the game by one tick and returns the next state, checking for out-of-bounds walls, self-collision, and eating food.
+
+#### Example
+
+```python
+from snake.core import create_game_state, tick
+
+state = create_game_state(10, 10, start_length=3)
+state = tick(state, requested_direction="UP")
+
+print("Snake:", state["snake"])
+print("Food:", state["food"])
+print("Score:", state["score"])
+print("Game Over:", state["game_over"])
+```
+
+#### Run Snake
+
+```bash
+PYTHONPATH=src pipenv run python -m snake
+```
+
+Controls: Arrow Keys = move, Q = quit.
+
+#### Test Snake
+
+```bash
+PYTHONPATH=src pipenv run pytest tests/test_snake_core.py -v
+```
 
 ### Tetris
 
@@ -79,15 +123,19 @@ board, cleared = clear_full_rows(board)
 print("Board:", board)
 print("Rows cleared:", cleared)
 ```
-### Run Tetris
+
+#### Run Tetris
+
 ```bash
 PYTHONPATH=src pipenv run python -m tetris
 ```
+
 Controls: A = left, D = right, S = down, W = rotate, Q = quit.
 
 If the terminal window is too small, the game will display a warning instead of crashing.
 
-### Test Tetris
+#### Test Tetris
+
 ```bash
 PYTHONPATH=src pipenv run pytest tests/test_tetris.py -v
 ```
