@@ -275,7 +275,7 @@ def start_blackjack(deck):
             print(f"\n----------------------------\nHand {index + 1}")
             print(check_winner(change_ace_value(hands_totals[index], player_cards[index]), dealer_total))
     else:
-        print(check_winner(change_ace_value(player_total, player_cards), dealer_total))
+        print(check_winner(change_ace_value(player_total, player_cards[0]), dealer_total))
 
 
 if __name__ == '__main__':
