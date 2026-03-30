@@ -16,10 +16,29 @@ This repository is in active development for the course package exercise.
 ## Current Progress
 
 - `blackjack` nearly completed, missing two special functions surrounding split hands and the ace
+- `core` default library containing basic class and functions
 - `minefield` module exists with core functions and a terminal game loop.
 - `snake` basics are started with importable core logic in `src/snake/core.py`.
 
 ## Quick Usage
+
+### Minefield
+
+```bash
+PYTHONPATH=src pipenv run python -m minefield
+```
+
+### Snake
+
+```bash
+PYTHONPATH=src pipenv run python -m snake
+```
+
+### Tetris
+
+```bash
+PYTHONPATH=src pipenv run python -m tetris
+```
 
 ## Development (WIP)
 
@@ -28,3 +47,12 @@ This repository is in active development for the course package exercise.
 - Add full packaging metadata for publishing to PyPI.
 - Add CI workflow to test/build on multiple Python versions.
 - Expand examples and function-level documentation for each game.
+- Implement tests using pytest
+
+## Team
+
+- [Chen Chen]()
+- [Gavin Chen]()
+- [Jonas Chen]()
+- [Kyle Chen]()
+- [Robin Chen](https://www.github.com/localhost433)
