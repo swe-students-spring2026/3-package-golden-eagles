@@ -4,13 +4,14 @@
 """
 
 class Sprite:
-    def __init__(self, row, col, mask, transparent=" "):
+    # currently assumes non-empty mask 
+    def __init__(self, row, col, mask, fill=" "):
         self.row = row
         self.col = col
         self.height = len(mask)
         self.width = max(len(line) for line in mask)
         self.mask = mask
-        self.transparent = transparent
+        self.fill = fill
 
     def move(self, direction, steps=1):
         if direction == "up":
@@ -23,18 +24,33 @@ class Sprite:
             self.col += steps
 
     def alter(self, newMask, startingPoint="topLeft"):
-        self.mask = newMask
-        self.height = len(newMask)
-        self.width = max(len(line) for line in newMask)
+        old_height = self.height
+        old_width = self.width
+
+        new_height = len(newMask)
+        new_width = max(len(line) for line in newMask)
+
         if startingPoint == "topLeft":
             pass
         elif startingPoint == "topRight":
-            self.col -= self.width - 1
+            self.col += old_width - new_width
         elif startingPoint == "bottomLeft":
-            self.row -= self.height - 1
+            self.row += old_height - new_height
         elif startingPoint == "bottomRight":
-            self.row -= self.height - 1
-            self.col -= self.width - 1
+            self.row += old_height - new_height
+            self.col += old_width - new_width
         elif startingPoint == "center":
-            self.row -= self.height // 2
-            self.col -= self.width // 2
+            self.row += (old_height - new_height) // 2
+            self.col += (old_width - new_width) // 2
+
+        self.mask = newMask
+        self.height = new_height
+        self.width = new_width
+
+    @staticmethod
+    def stringToMask(s):
+        return [list(line) for line in s.strip("\n").split("\n")]
+
+    @staticmethod
+    def maskToString(mask):
+        return "\n".join("".join(row) for row in mask)
