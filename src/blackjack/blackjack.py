@@ -67,14 +67,6 @@ def print_table(player_cards, dealer_cards, players_turn=False):
             line += card[index] + "   "
         print(line)
 
-# check if ace is in hand
-def ace_check(total, cards):
-    for card in cards:
-        if(card.is_ace and card.num == 1):
-            if(total + 10 <= 21 and total + 10 > total):
-                return total + 10
-    return total
-
 # ace can be 1 or 11 
 def change_ace_value(total, cards, is_dealer=False):
     if(is_dealer):
@@ -194,7 +186,7 @@ def start_blackjack(deck):
         pause()
 
     # check winner
-    print(check_winner(ace_check(player_total, player_cards), dealer_total))
+    print(check_winner(change_ace_value(player_total, player_cards), dealer_total))
 
 # start_blackjack(Card.generate_deck())
 # python src/blackjack/blackjack.py

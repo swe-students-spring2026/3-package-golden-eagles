@@ -6,6 +6,5 @@ from .blackjack import (
     check_player_total, 
     check_dealer_total, 
     check_winner,
-    ace_check,
     change_ace_value
 )
