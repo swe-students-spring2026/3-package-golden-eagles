@@ -1,17 +1,8 @@
 import random
 from src.core import Sprite
 
-__all__ = [
-    "DINO_ALIVE",
-    "DINO_DEAD",
-    "CACTUS1",
-    "CACTUS2",
-    "CACTUS3",
-    "CACTUS4",
-    "CACTUS_LIST",
-    "Dino",
-    "Cactus",
-]
+__all__ = ["Dino", "Cactus"]
+
 DINO_ALIVE = r"""
     ___
    / o_|
@@ -53,15 +44,16 @@ _ |^^| _
  \|^^|/
 """.strip("\n")
 
+
 class Dino(Sprite):
     def __init__(self, row, col):
-        super().__init__(DINO_ALIVE, row, col)
+        super().__init__(row, col, DINO_ALIVE)
         self.vel = 0
         self.grounded = True
         self.aliveMask = DINO_ALIVE
         self.deadMask = DINO_DEAD
 
-    # TODO: optimize jump strength and gravity
+    # TODO: fine-tune jump strength and gravity
     def jump(self, strength=-3):
         if self.grounded:
             self.vel = strength
@@ -79,4 +71,4 @@ class Cactus(Sprite):
 
         self.type = type
         mask = CACTUS_LIST[type]
-        super().__init__(mask, row, col)
+        super().__init__(row, col, mask)
