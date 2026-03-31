@@ -7,12 +7,11 @@ This repository is in active development for the course package exercise.
 
 ## Planned Game Module
 
-- **Blackjack**:
 - **Tetris**:A terminal-based Tetris module with reusable core logic for board creation, piece spawning, rotation, placement, collision checks, row clearing, and a playable curses-based demo.
 - **Blackjack**: Plays a simple game of blackjack wihtin the terminal given the user and the dealer
 - **Tetris**:
 - **Snake**: Grid-based snake movement with growth, food spawning, and collision rules.
-- **Minesweeper**:
+- **Minefield**:
 - **Dino Game**:
 
 ## Current Progress
@@ -27,11 +26,13 @@ This repository is in active development for the course package exercise.
 
 ### BlackJack
 
+### Dino Game
+
 ### Minefield
 
-Minefield is a puzzle game in which players reveal squares on a grid and use number clues to identify and avoid hidden mines. The objective is to clear all safe squares without triggering a mine. 
+Minefield is a puzzle game in which players reveal squares on a grid and use number clues to identify and avoid hidden mines. The objective is to clear all safe squares without triggering a mine.
 
-#### Functions 
+#### Functions
 
 - `create_board(rows, cols, num_mins)`
   Creates an empty grid for the minefield/
@@ -40,15 +41,15 @@ Minefield is a puzzle game in which players reveal squares on a grid and use num
   Creates the player's visible board with all cells hidden
 
 - `count_adjacent_mines(board,row,col)`
-  Returns the number of mines adjacent to a given cell. 
+  Returns the number of mines adjacent to a given cell.
 
-- `reveal_cell(board, visible_board, row, col)` 
+- `reveal_cell(board, visible_board, row, col)`
     Reveals a selected cell on the visible board and returns whether the move was safe or not
 
 - `check_win(board, visible_board)`
   Returns whehter all non-mine cells have been revealed
 
-### Run Minesweeper
+#### Run Minefield
 
 ### Snake
 
@@ -161,7 +162,52 @@ If the terminal window is too small, the game will display a warning instead of 
 PYTHONPATH=src pipenv run pytest tests/test_tetris.py -v
 ```
 
-## Development (WIP)
+## Installation
+
+## Example Programs
+
+You can find example Python programs in the `examples/` directory that demonstrate each function's operations. Currently available:
+
+- [Example Program](examples/demo.py)
+
+## Development
+
+To set up the development environment, install dependencies, and build/test the package:
+
+1. **Clone the repository:**
+
+   ```bash
+   git clone https://github.com/swe-students-spring2026/3-package-golden-eagles.git
+   cd 3-package-golden-eagles
+   ```
+
+2. **Install dependencies using pipenv:**
+
+   ```bash
+   pipenv install --dev
+   ```
+
+3. **Activate the environment:**
+
+   ```bash
+   pipenv shell
+   ```
+
+4. **Run the test suite:**
+
+   ```bash
+   pytest
+   ```
+
+5. **Build the package:**
+
+   ```bash
+   python -m build
+   ```
+
+### Environment Variables & Starter Data
+
+Currently, there are no strict imports or secret `.env` variables required for the project.
 
 ## Coming Next
 
@@ -172,8 +218,8 @@ PYTHONPATH=src pipenv run pytest tests/test_tetris.py -v
 
 ## Team
 
-- [Chen Chen]()
-- [Gavin Chen]()
+- [Chen Chen](https://github.com/LoganHund)
+- [Gavin Chen](https://github.com/OverYander)
 - [Jonas Chen](https://github.com/JonasChenJusFox)
 - [Kyle Chen](https://github.com/KyleC55)
-- [Robin Chen](https://www.github.com/localhost433)
+- [Robin Chen](https://github.com/localhost433)
