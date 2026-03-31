@@ -9,7 +9,6 @@ build = "*"
 twine = "*"
 
 [dev-packages]
+pytest = "*"
 build = "*"
 twine = "*"
-pytest = "*"
-
