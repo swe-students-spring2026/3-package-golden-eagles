@@ -3,7 +3,7 @@ Currently only a skeleton file
 TODO: Write tests for Board class
 """
 
-from src.core.board import Board 
+from src.core import board,sprites 
 
 def test_init():
     pass
@@ -21,7 +21,7 @@ def test_getArea():
     pass
 
 
-def test_clearArea():
+def test_clear():
     pass
 
 
