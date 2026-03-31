@@ -11,7 +11,7 @@ This repository is in active development for the course package exercise.
 - **Blackjack**: Plays a simple game of blackjack wihtin the terminal given the user and the dealer
 - **Tetris**:
 - **Snake**: Grid-based snake movement with growth, food spawning, and collision rules.
-- **Minefield**:
+- **Minefield**: Minefield is a puzzle game in which players reveal squares on a grid and use number clues to identify and avoid hidden mines. The objective is to clear all safe squares without triggering a mine.
 - **Dino Game**:
 
 ## Current Progress
@@ -30,7 +30,8 @@ This repository is in active development for the course package exercise.
 
 ### Minefield
 
-Minefield is a puzzle game in which players reveal squares on a grid and use number clues to identify and avoid hidden mines. The objective is to clear all safe squares without triggering a mine.
+The Minesweeper module provides reusable core functions for Minesweeper game logic,
+this includes board creation, cell revealing, and win-condition checking
 
 #### Functions
 
@@ -50,6 +51,32 @@ Minefield is a puzzle game in which players reveal squares on a grid and use num
   Returns whehter all non-mine cells have been revealed
 
 #### Run Minefield
+
+```bash
+PYTHONPATH=src pipenv run python -m minefield
+```
+
+## Controls
+
+The game displays a grid with row and column numbers. Enter the row and column of the cell you want to reveal.
+
+**Example:**
+
+```text
+  0 1 2 3 4 5
+0 # # # # # #
+1 # # # # # #
+2 # # # # # #
+3 # # # # # #
+4 # # # # # #
+5 # # # # # #
+```
+
+**Example Input:**
+`2 3`
+
+**Result:**
+This reveals the cell located at **Row 2, Column 3**.
 
 ### Snake
 
