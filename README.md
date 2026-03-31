@@ -1,13 +1,17 @@
-# Golden Eagles
+# Golden Eagles - Python game modules
 
-![Build Status](https://img.shields.io/badge/CI-pending-lightgrey)
+[![Python package](https://github.com/swe-students-spring2026/3-package-golden-eagles/actions/workflows/python-app.yml/badge.svg)](https://github.com/swe-students-spring2026/3-package-golden-eagles/actions/workflows/python-app.yml)
+
+[![log github events](https://github.com/swe-students-spring2026/3-package-golden-eagles/actions/workflows/event-logger.yml/badge.svg)](https://github.com/swe-students-spring2026/3-package-golden-eagles/actions/workflows/event-logger.yml)
+
+![Python](https://img.shields.io/badge/python-3.14-blue)
 
 Lightweight, reusable Python game modules built as an installable package.  
 This repository is in active development for the course package exercise.
 
-## Planned Game Module
+## Planned Game Modules
 
-- **Blackjack**: Plays a simple game of blackjack wihtin the terminal given the user and an AI dealer
+- **Blackjack**: Plays a simple game of blackjack within the terminal given the user and an AI dealer
 - **Tetris**:A terminal-based Tetris module with reusable core logic for board creation, piece spawning, rotation, placement, collision checks, row clearing, and a playable curses-based demo.
 - **Snake**: Grid-based snake movement with growth, food spawning, and collision rules.
 - **Minefield**: Minefield is a puzzle game in which players reveal squares on a grid and use number clues to identify and avoid hidden mines. The objective is to clear all safe squares without triggering a mine.
@@ -23,6 +27,7 @@ This repository is in active development for the course package exercise.
 - `dinoGame` module imports from core default library and currently only supports windows os
 
 ## Module Details
+
 ### Core Library (`src/core`)
 The core library provides a reusable foundation for building terminal-based 2D games.
 
@@ -242,9 +247,6 @@ python -m src.dinoGame.game [low|high|ramp]
 ### BlackJack
 A command-line implementation of the card game Blackjack. Players play against a dealer with blackjack rules like hand splitting, ace value adjustment (1 or 11), and blackjack win conditions or tie conditions.
 
-Run specifically blackjack, paste (in project root directory):
-python -m src.blackjack.game
-
 #### Documentation
 1. Card
 * `Constructor `
@@ -252,7 +254,7 @@ python -m src.blackjack.game
     Creates a standard card with specific checks for attributes is_ace and is_face(J, Q, K)
 
 * `Card.generate_deck()` - Static
-    - Returns a generatated a full deck of 52 cards with suits and numbers
+    - Returns a generated a full deck of 52 cards with suits and numbers
 ```def generate_deck():
     suits = ["Hearts", "Diamonds", "Clubs", "Spades"]
     # remember an Ace is 1 or 11
@@ -417,16 +419,15 @@ PYTHONPATH=src pipenv run python -m blackjack
 PYTHONPATH=src pipenv run python -m pytest tests/test_blackjack.py
 ```
 
-### Dino Game
 
-### Minefield
+### Minesweeper
 
 The Minesweeper module provides reusable core functions for Minesweeper game logic,
 this includes board creation, cell revealing, and win-condition checking
 
 #### Functions
 
-- `create_board(rows, cols, num_mins)`
+- `create_board(rows, cols, num_mines)`
   Creates an empty grid for the minefield/
 
 - `reveal_board(rows, cols)`
@@ -439,15 +440,15 @@ this includes board creation, cell revealing, and win-condition checking
     Reveals a selected cell on the visible board and returns whether the move was safe or not
 
 - `check_win(board, visible_board)`
-  Returns whehter all non-mine cells have been revealed
+  Returns whether all non-mine cells have been revealed
 
-#### Run Minefield
+#### Run Minesweeper
 
 ```bash
 PYTHONPATH=src pipenv run python -m minefield
 ```
 
-## Controls
+#### Controls
 
 The game displays a grid with row and column numbers. Enter the row and column of the cell you want to reveal.
 
@@ -468,6 +469,12 @@ The game displays a grid with row and column numbers. Enter the row and column o
 
 **Result:**
 This reveals the cell located at **Row 2, Column 3**.
+
+#### Test Minesweeper
+
+```bash
+PYTHONPATH=src pipenv run pytest tests/test_minefield.py -v
+```
 
 ### Snake
 
@@ -641,8 +648,8 @@ Currently, there are no strict imports or secret `.env` variables required for t
 
 ## Team
 
-- [Chen Chen](https://github.com/LoganHund)
-- [Gavin Chen](https://github.com/OverYander)
-- [Jonas Chen](https://github.com/JonasChenJusFox)
-- [Kyle Chen](https://github.com/KyleC55)
-- [Robin Chen](https://github.com/localhost433)
+- [Chen Chen](https://github.com/LoganHund) - Dino Game
+- [Gavin Chen](https://github.com/OverYander) - Blackjack
+- [Jonas Chen](https://github.com/JonasChenJusFox) - Tetris
+- [Kyle Chen](https://github.com/KyleC55) - Minesweeper
+- [Robin Chen](https://github.com/localhost433) - Snake
