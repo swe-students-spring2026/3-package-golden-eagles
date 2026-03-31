@@ -102,3 +102,13 @@ def test_scrolling_board_loading_zone():
     assert s.col == 6
     assert b.inLoadingZone(s) is True
     assert b.isOffScreenLeft(s) is False
+
+def test_sprites_collide_ignores_fill():
+    b = Board(5, 5)
+
+    s1 = Sprite(1, 1, ["X "], fill=" ")
+    s2 = Sprite(1, 2, [" X"], fill=" ")
+
+    assert b.spritesCollide(s1, s2) is False  # bounding boxes overlap, solid pixels do not
+    assert b.spritesCollide(s1, Sprite(1, 1, ["X"], fill=" ")) is True
+    assert b.spritesCollide(s2, Sprite(1, 3, ["X"], fill=" ")) is True
