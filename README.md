@@ -7,12 +7,8 @@ This repository is in active development for the course package exercise.
 
 ## Planned Game Module
 
-<<<<<<< HEAD
-- **Blackjack**: Terminal based blackjack game, emulating a mini game to play to pass some time
-=======
->>>>>>> 6429b7519d1d399b1195d3ad1ae7e39672ebebd0
 - **Tetris**:A terminal-based Tetris module with reusable core logic for board creation, piece spawning, rotation, placement, collision checks, row clearing, and a playable curses-based demo.
-- **Blackjack**: Plays a simple game of blackjack wihtin the terminal given the user and the dealer
+- **Blackjack**: Plays a simple game of blackjack wihtin the terminal given the user and an AI dealer
 - **Tetris**:
 - **Snake**: Grid-based snake movement with growth, food spawning, and collision rules.
 - **Minefield**: Minefield is a puzzle game in which players reveal squares on a grid and use number clues to identify and avoid hidden mines. The objective is to clear all safe squares without triggering a mine.
@@ -27,6 +23,34 @@ This repository is in active development for the course package exercise.
 - `tetris` module exists with importable core logic, row-clearing behavior, pytest coverage, and a terminal playable version.
 
 ## Module Details
+
+## Install configuration
+
+#### Install Python:
+1. Go to (python.org)[https://www.python.org/downloads/]
+2. Click "Download Python 3.12" (or latest version)
+3. Run the installer
+4. Click "Install Now"
+
+**If on Mac**
+brew install python3
+
+#### Install pipenv
+python -m pip install pipenv
+
+#### Enter project directory:
+cd C:\Users\path
+
+#### Install dependencies:
+pipenv install build
+pipenv install twine
+pipenv install pytest
+
+#### Run pipenv:
+pipenv shell
+
+#### Run package
+Todo
 
 ### BlackJack
 
