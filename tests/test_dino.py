@@ -1,5 +1,5 @@
 import pytest
-from dinoGame import Dino, Cactus, dinoBoard
+from src.dinoGame import Dino, Cactus, dinoBoard
 
 
 # -------------------------

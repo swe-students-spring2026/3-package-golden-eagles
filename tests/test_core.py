@@ -2,7 +2,7 @@
 Currently only a skeleton file
 TODO: Write tests for Board class
 """
-from core import Board, ScrollingBoard, Sprite
+from src.core import Board, ScrollingBoard, Sprite
 
 def test_board_set_and_get_cell():
     b = Board(3, 3)

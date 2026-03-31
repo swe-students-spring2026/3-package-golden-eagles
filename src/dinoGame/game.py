@@ -2,8 +2,8 @@ import time
 import msvcrt
 import random
 import sys
-from core import ScrollingBoard
-from dinoGame.dinoAssets import Dino, Cactus
+from src.core import ScrollingBoard
+from src.dinoGame.dinoAssets import Dino, Cactus
 
 def refresh(offset):
     sys.stdout.write(f"\033[{offset+1};1H")
