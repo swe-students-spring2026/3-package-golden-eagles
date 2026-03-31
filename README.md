@@ -7,7 +7,7 @@ This repository is in active development for the course package exercise.
 
 ## Planned Game Module
 
-- **Blackjack**:
+- **Blackjack**: Terminal based blackjack game, emulating a mini game to play to pass some time
 - **Tetris**:A terminal-based Tetris module with reusable core logic for board creation, piece spawning, rotation, placement, collision checks, row clearing, and a playable curses-based demo.
 - **Blackjack**: Plays a simple game of blackjack wihtin the terminal given the user and the dealer
 - **Tetris**:
@@ -151,7 +151,7 @@ PYTHONPATH=src pipenv run pytest tests/test_tetris.py -v
 
 ## Team
 
-- [Chen Chen]()
+- [Chen Chen](https://github.com/OverYander)
 - [Gavin Chen]()
 - [Jonas Chen](https://github.com/JonasChenJusFox)
 - [Kyle Chen]()
