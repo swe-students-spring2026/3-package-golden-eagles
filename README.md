@@ -16,12 +16,118 @@ This repository is in active development for the course package exercise.
 ## Current Progress
 
 - `blackjack` nearly completed, missing two special functions surrounding split hands and the ace
-- `core` default library containing basic class and functions
+- `core` default library containing basic class and functions for simple 2d games to run on the terminal
 - `minefield` module exists with core functions and a terminal game loop.
 - `snake` module exists with importable core logic, unit tests coverage, and a terminal playable version.
 - `tetris` module exists with importable core logic, row-clearing behavior, pytest coverage, and a terminal playable version.
+- `dinoGame` module imports from core default library currently only supports windows os
 
 ## Module Details
+### Core Library (`src/core`)
+The core library provides a reusable foundation for building terminal-based 2D games.
+
+#### Overview
+- **`Sprite`** - represents any drawable object (player, obstacle, etc.)
+- **`Board`** & **`ScrollingBoard`**  - manages a 2D grid and renders sprites, and `ScrollingBoard` extends `Board` with side-scrolling behavior
+
+---
+
+#### Sprite
+The `Sprite` class represents an object/actor on the board.
+
+- Stores:
+  - position - `row`, `col`
+  - shape - `mask`
+  - dimensions - `height`, `width`
+- Does **not** render itself — only holds state
+
+**Functions**
+
+- `__init__(row, col, mask, fill=" ")`  
+  Initialize a sprite with position, shape (mask), and fill character.
+
+- `move(direction, steps=1)`  
+  Moves the sprite in a given direction (`up`, `down`, `left`, `right`).
+
+- `alter(newMask, startingPoint="topLeft")`  
+  Changes the sprite’s shape while preserving alignment based on a reference point (e.g., center, corners).
+
+- `stringToMask(s)` *(static)*  
+  Converts a multi-line string into a 2D mask (list of character lists).
+
+- `maskToString(mask)` *(static)*  
+  Converts a 2D mask back into a printable string format.
+
+---
+
+#### Board
+The `Board` class represents the game environment and handles rendering.
+
+**Functions**
+
+- `__init__(rows, cols, fill=" ")`  
+  Creates a board with given dimensions and default fill character.
+
+- `redraw()`  
+  Clears the grid and redraws all sprites onto the board.
+
+- `setFill(fill)`  
+  Updates the default fill character for empty cells.
+
+- `reset(clearSprites=False)`  
+  Clears the grid and optionally removes all sprites.
+
+- `setCell(row, col, val)`  
+  Sets a specific cell value (ignores out-of-bounds).
+
+- `getCell(row, col)`  
+  Returns the value of a specific cell.
+
+- `getArea(row, col, height=1, width=1)`  
+  Returns a sub-area of the board as a 2D list.
+
+- `clearArea(row, col, height=1, width=1)`  
+  Clears a region of the board back to the fill value.
+
+- `addSprite(sprite, redraw=True)`  
+  Adds a sprite to the board and optionally redraws.
+
+- `removeSprite(sprite)`  
+  Removes a sprite and redraws the board.
+
+- `overlay(row, col, mask, fill=" ")`  
+  Draws a mask onto the board at a given position.
+
+- `spritesCollide(sprite1, sprite2)`  
+  Checks if two sprites overlap (ignores transparent cells).
+
+- `printBoard(row=0, col=0, height=20, width=50)`  
+  Prints a portion of the board to the terminal.
+
+- `copy()`  
+  Returns a copy of the board grid.
+
+#### ScrollingBoard
+Extends `Board` to support side-scrolling behavior.
+
+**Functions**
+
+- `__init__(rows, cols, fill=" ", loadingZone=10)`  
+  Initializes a board with an additional off-screen loading zone.
+
+- `isOffScreenLeft(sprite)`  
+  Checks if a sprite has moved completely off the left side.
+
+- `inLoadingZone(sprite)`  
+  Checks if a sprite is fully within the right-side loading zone.
+
+- `scrollLeft(step=1, exclude=None)`  
+  Moves all sprites left and removes off-screen sprites.
+
+- `addSpriteToLoadingZone(sprite, offset=0)`  
+  Adds a sprite just outside the visible board for later entry.
+
+
 ### BlackJack
 A command-line implementation of the card game Blackjack. Players play against a dealer with blackjack rules like hand splitting, ace value adjustment (1 or 11), and blackjack win conditions or tie conditions.
 
