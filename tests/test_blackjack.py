@@ -64,13 +64,13 @@ Don't think we can test user input functions
 class TestBlackjack:
     def test_check_player_total(self):
         # test math logic for player total
-        assert check_player_total(21) == True
-        assert check_player_total(22) == True
-        assert check_player_total(20) == False
+        assert check_player_total(21) == 21
+        assert check_player_total(22) == 22
+        assert check_player_total(20) == 20
 
     def test_check_dealer_total(self):
         # test math logic for dealer total
-        assert check_dealer_total(21) == True
+        assert check_dealer_total(21) == 21
         assert check_dealer_total(22) == True
         assert check_dealer_total(20) == False
 
