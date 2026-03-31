@@ -26,12 +26,14 @@ CACTUS1 = r"""
 """.strip("\n")
 
 CACTUS2 = r"""
+ 
  __
 |^ |/
 | ^|
 """.strip("\n")
 
 CACTUS3 = r"""
+ 
   __
 \|^ |
  | ^|
@@ -47,17 +49,18 @@ _ |^^| _
 
 class Dino(Sprite):
     def __init__(self, row, col):
-        super().__init__(row, col, DINO_ALIVE)
+        super().__init__(row, col, Sprite.stringToMask(DINO_ALIVE))
         self.vel = 0
         self.grounded = True
-        self.aliveMask = DINO_ALIVE
-        self.deadMask = DINO_DEAD
+        self.aliveMask = Sprite.stringToMask(DINO_ALIVE)
+        self.deadMask = Sprite.stringToMask(DINO_DEAD)
+        self.y = row
+        # TODO: leverage self.y for smoother jumping
 
-    # TODO: fine-tune jump strength and gravity
-    def jump(self, strength=-3):
-        if self.grounded:
-            self.vel = strength
-            self.grounded = False
+    def jump(self, strength=-2.3):
+      if self.grounded:
+          self.vel = strength
+          self.grounded = False
 
     def die(self):
         self.alter(self.deadMask)
@@ -70,5 +73,5 @@ class Cactus(Sprite):
             type = random.randint(0, len(CACTUS_LIST) - 1)
 
         self.type = type
-        mask = CACTUS_LIST[type]
+        mask = Sprite.stringToMask(CACTUS_LIST[type])
         super().__init__(row, col, mask)
