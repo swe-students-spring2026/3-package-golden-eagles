@@ -402,10 +402,14 @@ print(ace.print_card())
     - Example: `dealer_total = dealer_turn(player_cards, dealer_cards, deck)`
 
 #### Run game 
-python -m src.blackjack
+```bash
+PYTHONPATH=src pipenv run python -m blackjack
+```
 
 #### Run tests
-python -m pytest tests/test_blackjack.py
+```bash
+PYTHONPATH=src pipenv run python -m pytest tests/test_blackjack.py
+```
 
 ### Dino Game
 
