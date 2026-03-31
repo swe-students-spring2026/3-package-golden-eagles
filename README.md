@@ -237,11 +237,11 @@ $env:PYTHONPATH = "src"
 #### Running the Game
 - To start the game:
 ```markdown
-python -m src.dinoGame.game
+(pipenv) run python -m dinoGame
 ```
 - To start the game with specified difficulty:
 ```markdown
-python -m src.dinoGame.game [low|high|ramp]
+(pipenv) run python -m dinoGame low
 ```
 
 ### BlackJack
