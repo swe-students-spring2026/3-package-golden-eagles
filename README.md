@@ -7,8 +7,14 @@ This repository is in active development for the course package exercise.
 
 ## Planned Game Module
 
+<<<<<<< HEAD
 - **Blackjack**: Terminal based blackjack game, emulating a mini game to play to pass some time
 - **Tetris**:A terminal-based Tetris module with reusable core logic for board creation, piece spawning, rotation, placement, collision checks, row clearing, and a playable curses-based demo.
+=======
+- **Tetris**:A terminal-based Tetris module with reusable core logic for board creation, piece spawning, rotation, placement, collision checks, row clearing, and a playable curses-based demo.
+- **Blackjack**: Plays a simple game of blackjack wihtin the terminal given the user and an AI dealer
+- **Tetris**:
+>>>>>>> e356938f10b1ba43b4710c472ae237c79a382227
 - **Snake**: Grid-based snake movement with growth, food spawning, and collision rules.
 - **Minefield**: Minefield is a puzzle game in which players reveal squares on a grid and use number clues to identify and avoid hidden mines. The objective is to clear all safe squares without triggering a mine.
 - **Dino Game**:
@@ -23,7 +29,202 @@ This repository is in active development for the course package exercise.
 
 ## Module Details
 
+## Install configuration
+
+#### Install Python:
+1. Go to (python.org)[https://www.python.org/downloads/]
+2. Click "Download Python 3.12" (or latest version)
+3. Run the installer
+4. Click "Install Now"
+
+**If on Mac**
+brew install python3
+
+#### Install pipenv
+python -m pip install pipenv
+
+#### Enter project directory:
+cd C:\Users\path
+
+#### Install dependencies:
+pipenv install build
+pipenv install twine
+pipenv install pytest
+
+#### Run pipenv:
+pipenv shell
+
+#### Run package
+Todo
+
 ### BlackJack
+A command-line implementation of the card game Blackjack. Players play against a dealer with blackjack rules like hand splitting, ace value adjustment (1 or 11), and blackjack win conditions or tie conditions.
+
+Run specifically blackjack, paste (in project root directory):
+python -m src.blackjack.game
+
+#### Documentation
+1. Card
+* `Constructor `
+    - Card(suit, number)
+    Creates a standard card with specific checks for attributes is_ace and is_face(J, Q, K)
+
+* `Card.generate_deck()` - Static
+    - Returns a generatated a full deck of 52 cards with suits and numbers
+```def generate_deck():
+    suits = ["Hearts", "Diamonds", "Clubs", "Spades"]
+    # remember an Ace is 1 or 11
+    nums = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
+
+    deck = []
+    for suit in suits:
+        for num in nums:
+            card = Card(suit, num)
+            deck.append(card)
+    return deck
+```
+
+* `Card.blackjack_value(deck)` - Static
+    - Changes deck to turn all face cards to a number value of 10
+
+* `Card.pick_card(deck)` - Static
+    - Removed a Card from the deck and returns the Card
+
+* `Card.print_card()`
+    - Return a nicely formatted card with suit and number in ASCII
+```ace = Card("Hearts", 1)
+print(ace.print_card())
+# Output:
+# ┌───────────┐
+# │A         A│
+# │♥         ♥│
+# │           │
+# │           │
+# │           │
+# │♥         ♥│
+# │A         A│
+# └───────────┘
+```
+
+* `Card.print_blank()` - Static
+    - Return blank variation
+```print(ace.print_blank())
+# Output:
+# ┌───────────┐
+# │           │
+# │           │
+# │           │
+# │           │
+# │           │
+# │           │
+# │           │
+# └───────────┘
+```
+
+2. Game
+* `check_player_total(player_total)` - could be improved
+    - Prints player bust if player_total > 21 
+    - Prints player blackjack if player_total == 21
+    - Returns player_total
+
+* `check_dealer_total(dealer_total)`
+    - Prints "Dealer Blackjack!" and returns 21 if dealer_total == 21
+    - Prints "Dealer Bust. You win!" and returns True if dealer_total > 21
+    - Returns False otherwise
+
+* `check_dealer_natural(dealer_cards)`
+    - Checks if dealer's first 2 cards total 21
+    - Prints "Dealer has a natural Blackjack" if true
+    - Returns: bool
+
+* `check_natural_tie(player_total, dealer_cards)`
+    - Compares player blackjack with dealer's natural blackjack
+    - Prints "Tough tie!" or "You win this hand!"
+    - Returns None
+
+* `check_winner(player_total, dealer_total)`
+    - Prints both player and dealer totals
+    - Returns "Your hand busts. You lose" if player_total > 21
+    - Returns "Your hand wins!" if player_total > dealer_total
+    - Returns "Dealer wins!" if player_total < dealer_total
+    - Returns "A tie is practically a loss" if equal
+
+* `pause()`
+    - Prints "Press Enter to continue..."
+    - Waits for user to press Enter
+
+* `print_dealer_hand(dealer_cards, players_turn=False)`
+    - Prints dealer's cards in ASCII art
+    - If players_turn=True, hides second card with blank
+    - If players_turn=False, shows all cards
+
+* `print_player_hand(player_cards)`
+    - Prints single player hand in ASCII art
+    - Example: `print_player_hand([Card("Hearts", 5), Card("Clubs", 8)])`
+
+* `print_split_hand(player_cards)`
+    - Prints multiple split hands with "Playing hand {hand_num}" labels
+    - Example: `print_split_hand(hands)`
+
+* `print_table(player_cards, dealer_cards, players_turn=False)`
+    - Master print function, displays dealer + player cards
+    - Automatically handles single hands (1D) and split hands (2D)
+    - Example: `print_table(player_cards, dealer_cards, True)`
+
+* `change_ace_value(total, cards, is_dealer=False)`
+    - Adjusts ace from 1 to 11 if improves hand without busting
+    - If is_dealer=True, uses dealer rules (must be between 17-21)
+    - Returns: int (adjusted total)
+    - Modifies card.num in-place
+    - Example: `new_total = change_ace_value(11, [ace, ten])`
+
+* `change_ace_value_split(hands_totals, hands)`
+    - Adjusts aces for multiple split hands
+    - Modifies hands_totals list in-place
+    - Example: `change_ace_value_split(hand_totals, player_cards)`
+
+* `split_hand(player_cards, deck)`
+    - Recursively splits matching pairs into separate hands
+    - Prompts user "Split the pair or Double Down? (A-split/D-double down)"
+    - If "A", recursively calls split_hand on each new hand
+    - If "D", returns [player_cards] without splitting
+    - Returns: list of hands
+    - Example: `hands = split_hand([Card("Hearts", 5), Card("Clubs", 5)], deck)`
+    - `hand = [[Card("Hearts", 5), (random picked card)], [Card("Clubs", 5), (random picked card)]]`
+
+* `player_hit_stand(player_total, player_cards, deck)`
+    - Prompts user "Hit or Stand? (A-hit/D-stand)"
+    - If "A", draws card from deck, adds to hand, returns new total
+    - If "D", prints "You stand" and returns same total
+    - Loops if invalid input
+    - Returns player_total (updated)
+    - Example: `new_total = player_hit_stand(13, hand, deck)`
+
+* `player_turn(player_cards, dealer_cards, deck)`
+    - Calculates initial hand total
+    - Calls change_ace_value() to adjust aces
+    - Calls check_player_total() - returns 21 if blackjack
+    - Loops player_hit_stand(), adjusts aces , checks total
+    - Returns total if >= 21 or stand
+    - Returns: int (player_total)
+    - Example: `total = player_turn(hand, dealer_cards, deck)`
+
+* `dealer_hit_stand(dealer_cards, dealer_total, deck)`
+    - Single decision: hits if dealer_total < 17, stands if >= 17
+    - If hits: draws card, prints "Dealer hits", returns new total
+    - If stands: prints "Dealer stands", returns same total
+    - Returns: int (updated total)
+    - Example: `new_total = dealer_hit_stand(dealer_cards, 15, deck)`
+
+* `dealer_turn(player_cards, dealer_cards, deck)`
+    - Calculates initial dealer total
+    - Calls change_ace_value() with is_dealer=True
+    - Loops: calls dealer_hit_stand(), adjusts aces, prints table
+    - Calls check_dealer_total() - returns None if bust/blackjack
+    - Ends loop if dealer_total >= 17
+    - Returns: int (player_total) or None is bust
+    - Example: `dealer_total = dealer_turn(player_cards, dealer_cards, deck)`
+
 
 ### Dino Game
 
@@ -244,8 +445,18 @@ Currently, there are no strict imports or secret `.env` variables required for t
 
 ## Team
 
+<<<<<<< HEAD
 - [Chen Chen](https://github.com/LoganHund)
 - [Gavin Chen](https://github.com/OverYander)
+=======
+<<<<<<< HEAD
+- [Chen Chen](https://github.com/OverYander)
+- [Gavin Chen]()
+=======
+- [Chen Chen](https://github.com/LoganHund)
+- [Gavin Chen](https://github.com/OverYander)
+>>>>>>> 6429b7519d1d399b1195d3ad1ae7e39672ebebd0
+>>>>>>> e356938f10b1ba43b4710c472ae237c79a382227
 - [Jonas Chen](https://github.com/JonasChenJusFox)
 - [Kyle Chen](https://github.com/KyleC55)
 - [Robin Chen](https://github.com/localhost433)

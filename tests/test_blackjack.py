@@ -76,7 +76,8 @@ class TestBlackjack:
 
     def test_check_winner(self):
         # test winner logic
-        assert check_winner(20, 19) == 'You win!'
+        assert check_winner(22, 19) == 'Your hand busts. You lose'
+        assert check_winner(20, 19) == 'Your hand wins!'
         assert check_winner(19, 20) == 'Dealer wins!'
         assert check_winner(20, 20) == 'A tie is practically a loss'
 
