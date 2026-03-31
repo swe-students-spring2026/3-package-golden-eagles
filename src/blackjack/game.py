@@ -252,7 +252,7 @@ def start_blackjack(deck):
     # testing checks
     # test = Card.test_card(11, 'J')
     # player_cards = [Card("Hearts", 10), test]
-    player_cards = [Card("Hearts", 10), Card("Clubs", 10)]
+    # player_cards = [Card("Hearts", 10), Card("Clubs", 10)]
     # dealer_cards = [Card("Hearts", 1), Card("Clubs", 10)]
 
     # split pair
