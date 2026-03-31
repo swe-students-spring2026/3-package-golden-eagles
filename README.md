@@ -222,14 +222,20 @@ _ |^^| _
 
 ---
 
+#### Installation / Setup (Windows PowerShell)
 
+To run the Dino Game, first set the `src` folder as the Python module path for the current terminal session:
+
+```powershell
+$env:PYTHONPATH = "src"
+```
 #### Running the Game
-- Run the game from the project root:
-```bash
+- To start the game:
+```markdown
 python -m src.dinoGame.game
 ```
-You can specify the difficulty as a command-line argument:
-```bash
+- To start the game with specified difficulty:
+```markdown
 python -m src.dinoGame.game [low|high|ramp]
 ```
 
