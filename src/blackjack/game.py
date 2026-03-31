@@ -45,7 +45,7 @@ def check_winner(player_total, dealer_total):
     elif player_total > dealer_total:
         return "Your hand wins!"
     elif player_total < dealer_total:
-        return "Your hand loses"
+        return "Dealer wins!"
     else:
         return "A tie is practically a loss"
 
