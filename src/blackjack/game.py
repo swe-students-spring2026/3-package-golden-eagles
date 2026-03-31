@@ -309,7 +309,4 @@ def start_blackjack(deck):
     else:
         print(check_winner(change_ace_value(hands_totals[0], player_cards[0]), dealer_total))
 
-
-if __name__ == '__main__':
-    start_blackjack(Card.generate_deck())
 # python -m src.blackjack.game
