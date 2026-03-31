@@ -1,19 +1,30 @@
+import random
 from src.core import Sprite
-__all__ = ["DINO", "CACTUS1", "CACTUS2", "CACTUS3", "CACTUS4"]
 
+__all__ = [
+    "DINO_ALIVE",
+    "DINO_DEAD",
+    "CACTUS1",
+    "CACTUS2",
+    "CACTUS3",
+    "CACTUS4",
+    "CACTUS_LIST",
+    "Dino",
+    "Cactus",
+]
 DINO_ALIVE = r"""
     ___
    / o_|
 <=/__/>>
   ⌄ ⌄
-"""
+""".strip("\n")
 
 DINO_DEAD = r"""
     ___
    / x_|
 <=/__/>>
   ⌄ ⌄
-"""
+""".strip("\n")
 
 
 CACTUS1 = r"""
@@ -21,42 +32,51 @@ CACTUS1 = r"""
 |^^| _
 |^^|//
 |^^|/
-"""
+""".strip("\n")
 
 CACTUS2 = r"""
  __
 |^ |/
 | ^|
-"""
+""".strip("\n")
 
 CACTUS3 = r"""
   __
 \|^ |
  | ^|
-"""
+""".strip("\n")
 
 CACTUS4 = r"""
    __
 _ |^^| _
 \\|^^|//
  \|^^|/
-"""
+""".strip("\n")
 
 class Dino(Sprite):
     def __init__(self, row, col):
-        super().__init__(row, col, DINO_ALIVE)
+        super().__init__(DINO_ALIVE, row, col)
         self.vel = 0
         self.grounded = True
         self.aliveMask = DINO_ALIVE
         self.deadMask = DINO_DEAD
 
-    # TODO: finish the jump method
-    # needs to be async, prevent input until jump "animation" finish
-    def jump(self):
-        return None
+    # TODO: optimize jump strength and gravity
+    def jump(self, strength=-3):
+        if self.grounded:
+            self.vel = strength
+            self.grounded = False
 
-# TODO: finish the cactus class
+    def die(self):
+        self.alter(self.deadMask)
+
 CACTUS_LIST = [CACTUS1, CACTUS2, CACTUS3, CACTUS4]
+
 class Cactus(Sprite):
-    def __init__(self, row, col, type=0):
-        super().__init__(row, col, CACTUS_LIST[type])
+    def __init__(self, row, col, type=None):
+        if type is None:
+            type = random.randint(0, len(CACTUS_LIST) - 1)
+
+        self.type = type
+        mask = CACTUS_LIST[type]
+        super().__init__(mask, row, col)
