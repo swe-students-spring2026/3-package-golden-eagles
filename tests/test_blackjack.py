@@ -2,6 +2,7 @@ import pytest
 from src.blackjack import Card, check_player_total, check_dealer_total, check_winner, change_ace_value
 
 # python -m pytest tests/test_blackjack.py
+# python3 -m pytest tests/test_blackjack.py
 # when testing make sure start_blackjack is not being called in blackjack.py
 
 # Test cases for the card class and deck generation
