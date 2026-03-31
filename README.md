@@ -7,14 +7,8 @@ This repository is in active development for the course package exercise.
 
 ## Planned Game Module
 
-<<<<<<< HEAD
-- **Blackjack**: Terminal based blackjack game, emulating a mini game to play to pass some time
-- **Tetris**:A terminal-based Tetris module with reusable core logic for board creation, piece spawning, rotation, placement, collision checks, row clearing, and a playable curses-based demo.
-=======
-- **Tetris**:A terminal-based Tetris module with reusable core logic for board creation, piece spawning, rotation, placement, collision checks, row clearing, and a playable curses-based demo.
 - **Blackjack**: Plays a simple game of blackjack wihtin the terminal given the user and an AI dealer
-- **Tetris**:
->>>>>>> e356938f10b1ba43b4710c472ae237c79a382227
+- **Tetris**:A terminal-based Tetris module with reusable core logic for board creation, piece spawning, rotation, placement, collision checks, row clearing, and a playable curses-based demo.
 - **Snake**: Grid-based snake movement with growth, food spawning, and collision rules.
 - **Minefield**: Minefield is a puzzle game in which players reveal squares on a grid and use number clues to identify and avoid hidden mines. The objective is to clear all safe squares without triggering a mine.
 - **Dino Game**:
@@ -28,35 +22,6 @@ This repository is in active development for the course package exercise.
 - `tetris` module exists with importable core logic, row-clearing behavior, pytest coverage, and a terminal playable version.
 
 ## Module Details
-
-## Install configuration
-
-#### Install Python:
-1. Go to (python.org)[https://www.python.org/downloads/]
-2. Click "Download Python 3.12" (or latest version)
-3. Run the installer
-4. Click "Install Now"
-
-**If on Mac**
-brew install python3
-
-#### Install pipenv
-python -m pip install pipenv
-
-#### Enter project directory:
-cd C:\Users\path
-
-#### Install dependencies:
-pipenv install build
-pipenv install twine
-pipenv install pytest
-
-#### Run pipenv:
-pipenv shell
-
-#### Run package
-Todo
-
 ### BlackJack
 A command-line implementation of the card game Blackjack. Players play against a dealer with blackjack rules like hand splitting, ace value adjustment (1 or 11), and blackjack win conditions or tie conditions.
 
@@ -389,17 +354,23 @@ If the terminal window is too small, the game will display a warning instead of 
 PYTHONPATH=src pipenv run pytest tests/test_tetris.py -v
 ```
 
-## Installation
-
 ## Example Programs
 
 You can find example Python programs in the `examples/` directory that demonstrate each function's operations. Currently available:
 
 - [Example Program](examples/demo.py)
 
-## Development
 
-To set up the development environment, install dependencies, and build/test the package:
+## Prerequisites
+
+- Install Python (use the version required by this project)
+- Install pipenv:
+
+```bash
+python -m pip install pipenv
+```
+
+ ## Setup
 
 1. **Clone the repository:**
 
@@ -445,18 +416,8 @@ Currently, there are no strict imports or secret `.env` variables required for t
 
 ## Team
 
-<<<<<<< HEAD
 - [Chen Chen](https://github.com/LoganHund)
 - [Gavin Chen](https://github.com/OverYander)
-=======
-<<<<<<< HEAD
-- [Chen Chen](https://github.com/OverYander)
-- [Gavin Chen]()
-=======
-- [Chen Chen](https://github.com/LoganHund)
-- [Gavin Chen](https://github.com/OverYander)
->>>>>>> 6429b7519d1d399b1195d3ad1ae7e39672ebebd0
->>>>>>> e356938f10b1ba43b4710c472ae237c79a382227
 - [Jonas Chen](https://github.com/JonasChenJusFox)
 - [Kyle Chen](https://github.com/KyleC55)
 - [Robin Chen](https://github.com/localhost433)
