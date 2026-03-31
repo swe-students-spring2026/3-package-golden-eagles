@@ -1,9 +1,11 @@
 import time
-import msvcrt
 import random
 import sys
 from src.core import ScrollingBoard
 from src.dinoGame.dinoAssets import Dino, Cactus
+import os
+if os.name == "nt":
+    import msvcrt
 
 def refresh(offset):
     sys.stdout.write(f"\033[{offset+1};1H")
@@ -23,10 +25,11 @@ class dinoBoard(ScrollingBoard):
         self.addSprite(self.dino)
 
     def handleInput(self):
-        if msvcrt.kbhit():
-            key = msvcrt.getch()
-            if key == b' ':
-                self.dino.jump()
+        if os.name == "nt":
+            if msvcrt.kbhit():
+                key = msvcrt.getch()
+                if key == b' ':
+                    self.dino.jump()
 
     def getSpeed(self):
         if self.difficulty == "low":
