@@ -1,13 +1,17 @@
-# Golden Eagles
+# Golden Eagles - Python game modules
 
-![Build Status](https://img.shields.io/badge/CI-pending-lightgrey)
+[![Python package](https://github.com/swe-students-spring2026/3-package-golden-eagles/actions/workflows/python-app.yml/badge.svg)](https://github.com/swe-students-spring2026/3-package-golden-eagles/actions/workflows/python-app.yml)
+
+[![log github events](https://github.com/swe-students-spring2026/3-package-golden-eagles/actions/workflows/event-logger.yml/badge.svg)](https://github.com/swe-students-spring2026/3-package-golden-eagles/actions/workflows/event-logger.yml)
+
+![Python](https://img.shields.io/badge/python-3.14-blue)
 
 Lightweight, reusable Python game modules built as an installable package.  
 This repository is in active development for the course package exercise.
 
-## Planned Game Module
+## Planned Game Modules
 
-- **Blackjack**: Plays a simple game of blackjack wihtin the terminal given the user and an AI dealer
+- **Blackjack**: Plays a simple game of blackjack within the terminal given the user and an AI dealer
 - **Tetris**:A terminal-based Tetris module with reusable core logic for board creation, piece spawning, rotation, placement, collision checks, row clearing, and a playable curses-based demo.
 - **Snake**: Grid-based snake movement with growth, food spawning, and collision rules.
 - **Minefield**: Minefield is a puzzle game in which players reveal squares on a grid and use number clues to identify and avoid hidden mines. The objective is to clear all safe squares without triggering a mine.
@@ -23,6 +27,7 @@ This repository is in active development for the course package exercise.
 - `dinoGame` module imports from core default library and currently only supports windows os
 
 ## Module Details
+
 ### Core Library (`src/core`)
 The core library provides a reusable foundation for building terminal-based 2D games.
 
@@ -133,111 +138,8 @@ Extends `Board` to support side-scrolling behavior.
 
 ---
 
-#### Basic Game Logic
-
-The Dino Game builds on the core library’s **scrolling** and **sprite-based rendering** system.  
-Instead of moving the player forward, the **environment scrolls left**, creating an endless runner effect while the dino remains mostly fixed horizontally.
-
----
-
-#### Core Mechanics
-
-- **Jump Behavior (`jump`)**  
-  Applies an upward velocity to the dino when grounded, followed by gravity each tick to simulate a smooth jump arc.
-
-- **Cactus Spawning (`spawnCactus`, `canSpawnCactus`)**  
-  Obstacles are spawned randomly in the loading zone.  
-  A minimum gap (`minGap`) is enforced to prevent overlapping or unfair spawns.
-
-- **Collision Detection (`checkCollision`)**  
-  Uses the core library’s sprite collision system to detect overlap between the dino and cacti.  
-  Ends the game immediately on collision.
-
-- **Scrolling Behavior**  
-  The board continuously shifts left each tick, moving all sprites except the dino.  
-  Off-screen objects are automatically removed.
-
-- **Rendering Priority (`prioritizeDino`)**  
-  Ensures the dino is always drawn on top of other sprites.
-
----
-
-#### Game Logic
-
-Each tick:
-1. Handle input (jump)
-2. Possibly spawn a cactus (with spacing check)
-3. Scroll the environment left
-4. Update dino position (velocity + gravity)
-5. Check for collisions
-6. Redraw the board and update score
-
----
-
-#### Dino & Cactus Sprites
-
-**Dino (Alive)**
-```
-    ___
-   / o_|
-<=/__/>>
-  ⌄ ⌄
-```
-
-**Dino (Dead)**
-```
-    ___
-   / x_|
-<=/__/>>
-  ⌄ ⌄
-```
-
-**Cactus 1**
-```
- __
-|^^| _
-|^^|//
-|^^|/
-```
-**Cactus 2**
-``` 
- __
-|^ |/
-| ^|
-```
-
-**Cactus 3**
-``` 
-  __
-\|^ |
- | ^|
-```
-**Cactus 4**
-```
-   __
-_ |^^| _
-\\|^^|//
- \|^^|/
-```
-
----
-
-
-#### Running the Game
-- Run the game from the project root:
-```bash
-python -m src.dinoGame.game
-```
-0 You can specify the difficulty as a command-line argument:
-```bash
-python -m src.dinoGame.game [low|high|ramp]
-```
-
-### BlackJack
+### Blackjack
 A command-line implementation of the card game Blackjack. Players play against a dealer with blackjack rules like hand splitting, ace value adjustment (1 or 11), and blackjack win conditions or tie conditions.
-
-Run specifically blackjack, paste (in project root directory):
-python -m src.blackjack.game
 
 #### Documentation
 1. Card
@@ -246,7 +148,7 @@ python -m src.blackjack.game
     Creates a standard card with specific checks for attributes is_ace and is_face(J, Q, K)
 
 * `Card.generate_deck()` - Static
-    - Returns a generatated a full deck of 52 cards with suits and numbers
+    - Returns a generated a full deck of 52 cards with suits and numbers
 ```def generate_deck():
     suits = ["Hearts", "Diamonds", "Clubs", "Spades"]
     # remember an Ace is 1 or 11
@@ -400,15 +302,133 @@ print(ace.print_card())
     - Ends loop if dealer_total >= 17
     - Returns: int (player_total) or None is bust
     - Example: `dealer_total = dealer_turn(player_cards, dealer_cards, deck)`
-  
-### Minefield
+
+#### Run Blackjack
+```bash
+python -m src.blackjack.game
+```
+
+#### Test Blackjack
+
+```bash
+PYTHONPATH=src pipenv run pytest tests/test_blackjack.py -v
+```
+
+### Dino Game
+#### Basic Game Logic
+
+The Dino Game builds on the core library’s **scrolling** and **sprite-based rendering** system.  
+Instead of moving the player forward, the **environment scrolls left**, creating an endless runner effect while the dino remains mostly fixed horizontally.
+
+---
+
+#### Core Mechanics
+
+- **Jump Behavior (`jump`)**  
+  Applies an upward velocity to the dino when grounded, followed by gravity each tick to simulate a smooth jump arc.
+
+- **Cactus Spawning (`spawnCactus`, `canSpawnCactus`)**  
+  Obstacles are spawned randomly in the loading zone.  
+  A minimum gap (`minGap`) is enforced to prevent overlapping or unfair spawns.
+
+- **Collision Detection (`checkCollision`)**  
+  Uses the core library’s sprite collision system to detect overlap between the dino and cacti.  
+  Ends the game immediately on collision.
+
+- **Scrolling Behavior**  
+  The board continuously shifts left each tick, moving all sprites except the dino.  
+  Off-screen objects are automatically removed.
+
+- **Rendering Priority (`prioritizeDino`)**  
+  Ensures the dino is always drawn on top of other sprites.
+
+---
+
+#### Game Logic
+
+Each tick:
+1. Handle input (jump)
+2. Possibly spawn a cactus (with spacing check)
+3. Scroll the environment left
+4. Update dino position (velocity + gravity)
+5. Check for collisions
+6. Redraw the board and update score
+
+---
+
+#### Dino & Cactus Sprites
+
+**Dino (Alive)**
+```
+    ___
+   / o_|
+<=/__/>>
+  ⌄ ⌄
+```
+
+**Dino (Dead)**
+```
+    ___
+   / x_|
+<=/__/>>
+  ⌄ ⌄
+```
+
+**Cactus 1**
+```
+ __
+|^^| _
+|^^|//
+|^^|/
+```
+**Cactus 2**
+``` 
+ __
+|^ |/
+| ^|
+```
+
+**Cactus 3**
+``` 
+  __
+\|^ |
+ | ^|
+```
+**Cactus 4**
+```
+   __
+_ |^^| _
+\\|^^|//
+ \|^^|/
+```
+
+---
+
+
+#### Running Dino Game
+- Run the game from the project root:
+```bash
+python -m src.dinoGame.game
+```
+- You can specify the difficulty as a command-line argument:
+```bash
+python -m src.dinoGame.game [low|high|ramp]
+```
+
+#### Test Dino Game
+
+```bash
+PYTHONPATH=src pipenv run pytest tests/test_dino.py -v
+```
+
+### Minesweeper
 
 The Minesweeper module provides reusable core functions for Minesweeper game logic,
 this includes board creation, cell revealing, and win-condition checking
 
 #### Functions
 
-- `create_board(rows, cols, num_mins)`
+- `create_board(rows, cols, num_mines)`
   Creates an empty grid for the minefield/
 
 - `reveal_board(rows, cols)`
@@ -421,15 +441,15 @@ this includes board creation, cell revealing, and win-condition checking
     Reveals a selected cell on the visible board and returns whether the move was safe or not
 
 - `check_win(board, visible_board)`
-  Returns whehter all non-mine cells have been revealed
+  Returns whether all non-mine cells have been revealed
 
-#### Run Minefield
+#### Run Minesweeper
 
 ```bash
 PYTHONPATH=src pipenv run python -m minefield
 ```
 
-## Controls
+#### Controls
 
 The game displays a grid with row and column numbers. Enter the row and column of the cell you want to reveal.
 
@@ -450,6 +470,12 @@ The game displays a grid with row and column numbers. Enter the row and column o
 
 **Result:**
 This reveals the cell located at **Row 2, Column 3**.
+
+#### Test Minesweeper
+
+```bash
+PYTHONPATH=src pipenv run pytest tests/test_minefield.py -v
+```
 
 ### Snake
 
@@ -623,8 +649,8 @@ Currently, there are no strict imports or secret `.env` variables required for t
 
 ## Team
 
-- [Chen Chen](https://github.com/LoganHund)
-- [Gavin Chen](https://github.com/OverYander)
-- [Jonas Chen](https://github.com/JonasChenJusFox)
-- [Kyle Chen](https://github.com/KyleC55)
-- [Robin Chen](https://github.com/localhost433)
+- [Chen Chen](https://github.com/LoganHund) - Dino Game
+- [Gavin Chen](https://github.com/OverYander) - 
+- [Jonas Chen](https://github.com/JonasChenJusFox) - Tetris
+- [Kyle Chen](https://github.com/KyleC55) - Minefield
+- [Robin Chen](https://github.com/localhost433) - 
