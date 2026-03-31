@@ -1,12 +1,10 @@
 import time
 import random
-from src.core.board import ScrollingBoard
-from .dinoAssets import DINO, CACTUS1, CACTUS2, CACTUS3, CACTUS4
+from src.core import ScrollingBoard
 
 class dinoBoard(ScrollingBoard):
     def __init__(self, rows=20, cols=20, fill=" "):
         super().__init__(rows, cols, fill)
-        self.setMask(DINO, row=rows-5, col=2)  # place dino near bottom left
 
 
 def intro():

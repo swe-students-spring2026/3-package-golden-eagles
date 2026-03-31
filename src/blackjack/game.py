@@ -40,12 +40,10 @@ def check_natural_tie(player_total, dealer_cards):
 def check_winner(player_total, dealer_total):
     print(f"Player total end: {player_total}")
     print(f"Dealer total end: {dealer_total}")
-    if player_total > 21:
-        return "Your hand busts. You lose"
-    elif player_total > dealer_total:
-        return "Your hand wins!"
+    if player_total > dealer_total:
+        return "You win!"
     elif player_total < dealer_total:
-        return "Your hand loses"
+        return "Dealer wins!"
     else:
         return "A tie is practically a loss"
 
