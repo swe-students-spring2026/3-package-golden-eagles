@@ -3,11 +3,12 @@ from .core import create_board, reveal_board, check_win, reveal_cell
 
 def print_board(board):
     """
-    Printing the board
+    Prints the board with rows and column numbers for better user experience.
     """
-    for row in board:
-        print(' '.join(row))
-    print()
+    cols = len(board[0])
+    print(" " + " ".join(str(i) for i in range(cols)))
+    for idx, row in enumerate(board):
+        print(f"{idx} " + " ".join(row))
 
 def play_game():
     """
