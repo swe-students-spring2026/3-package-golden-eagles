@@ -400,7 +400,19 @@ print(ace.print_card())
     - Ends loop if dealer_total >= 17
     - Returns: int (player_total) or None is bust
     - Example: `dealer_total = dealer_turn(player_cards, dealer_cards, deck)`
-  
+
+#### Run game 
+```bash
+PYTHONPATH=src pipenv run python -m blackjack
+```
+
+#### Run tests
+```bash
+PYTHONPATH=src pipenv run python -m pytest tests/test_blackjack.py
+```
+
+### Dino Game
+
 ### Minefield
 
 The Minesweeper module provides reusable core functions for Minesweeper game logic,

@@ -1,5 +1,6 @@
 import pytest
-from src.blackjack import Card, check_player_total, check_dealer_total, check_winner, change_ace_value
+
+from blackjack import Card, check_player_total, check_dealer_total, check_winner, change_ace_value
 
 # python -m pytest tests/test_blackjack.py
 # python3 -m pytest tests/test_blackjack.py
