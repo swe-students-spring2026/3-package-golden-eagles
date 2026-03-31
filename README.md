@@ -138,7 +138,113 @@ Extends `Board` to support side-scrolling behavior.
 
 ---
 
-### Blackjack
+### Dino Game
+
+The Dino Game builds on the core library’s **scrolling** and **sprite-based rendering** system.  
+Instead of moving the player forward, the **environment scrolls left**, creating an endless runner effect while the dino remains mostly fixed horizontally.
+
+---
+
+#### Core Mechanics
+
+- **Jump Behavior (`jump`)**  
+  Applies an upward velocity to the dino when grounded, followed by gravity each tick to simulate a smooth jump arc.
+
+- **Cactus Spawning (`spawnCactus`, `canSpawnCactus`)**  
+  Obstacles are spawned randomly in the loading zone.  
+  A minimum gap (`minGap`) is enforced to prevent overlapping or unfair spawns.
+
+- **Collision Detection (`checkCollision`)**  
+  Uses the core library’s sprite collision system to detect overlap between the dino and cacti.  
+  Ends the game immediately on collision.
+
+- **Scrolling Behavior**  
+  The board continuously shifts left each tick, moving all sprites except the dino.  
+  Off-screen objects are automatically removed.
+
+- **Rendering Priority (`prioritizeDino`)**  
+  Ensures the dino is always drawn on top of other sprites.
+
+---
+
+#### Game Logic
+
+Each tick:
+1. Handle input (jump)
+2. Possibly spawn a cactus (with spacing check)
+3. Scroll the environment left
+4. Update dino position (velocity + gravity)
+5. Check for collisions
+6. Redraw the board and update score
+
+---
+
+#### Dino & Cactus Sprites
+
+**Dino (Alive)**
+```
+    ___
+   / o_|
+<=/__/>>
+  ⌄ ⌄
+```
+
+**Dino (Dead)**
+```
+    ___
+   / x_|
+<=/__/>>
+  ⌄ ⌄
+```
+
+**Cactus 1**
+```
+ __
+|^^| _
+|^^|//
+|^^|/
+```
+**Cactus 2**
+``` 
+ __
+|^ |/
+| ^|
+```
+
+**Cactus 3**
+``` 
+  __
+\|^ |
+ | ^|
+```
+**Cactus 4**
+```
+   __
+_ |^^| _
+\\|^^|//
+ \|^^|/
+```
+
+---
+
+#### Installation / Setup (Windows PowerShell)
+
+To run the Dino Game, first set the `src` folder as the Python module path for the current terminal session:
+
+```powershell
+$env:PYTHONPATH = "src"
+```
+#### Running the Game
+- To start the game:
+```markdown
+python -m src.dinoGame.game
+```
+- To start the game with specified difficulty:
+```markdown
+python -m src.dinoGame.game [low|high|ramp]
+```
+
+### BlackJack
 A command-line implementation of the card game Blackjack. Players play against a dealer with blackjack rules like hand splitting, ace value adjustment (1 or 11), and blackjack win conditions or tie conditions.
 
 #### Documentation
@@ -303,123 +409,16 @@ print(ace.print_card())
     - Returns: int (player_total) or None is bust
     - Example: `dealer_total = dealer_turn(player_cards, dealer_cards, deck)`
 
-#### Run Blackjack
+#### Run game 
 ```bash
-python -m src.blackjack.game
+PYTHONPATH=src pipenv run python -m blackjack
 ```
 
-#### Test Blackjack
-
+#### Run tests
 ```bash
-PYTHONPATH=src pipenv run pytest tests/test_blackjack.py -v
+PYTHONPATH=src pipenv run python -m pytest tests/test_blackjack.py
 ```
 
-### Dino Game
-#### Basic Game Logic
-
-The Dino Game builds on the core library’s **scrolling** and **sprite-based rendering** system.  
-Instead of moving the player forward, the **environment scrolls left**, creating an endless runner effect while the dino remains mostly fixed horizontally.
-
----
-
-#### Core Mechanics
-
-- **Jump Behavior (`jump`)**  
-  Applies an upward velocity to the dino when grounded, followed by gravity each tick to simulate a smooth jump arc.
-
-- **Cactus Spawning (`spawnCactus`, `canSpawnCactus`)**  
-  Obstacles are spawned randomly in the loading zone.  
-  A minimum gap (`minGap`) is enforced to prevent overlapping or unfair spawns.
-
-- **Collision Detection (`checkCollision`)**  
-  Uses the core library’s sprite collision system to detect overlap between the dino and cacti.  
-  Ends the game immediately on collision.
-
-- **Scrolling Behavior**  
-  The board continuously shifts left each tick, moving all sprites except the dino.  
-  Off-screen objects are automatically removed.
-
-- **Rendering Priority (`prioritizeDino`)**  
-  Ensures the dino is always drawn on top of other sprites.
-
----
-
-#### Game Logic
-
-Each tick:
-1. Handle input (jump)
-2. Possibly spawn a cactus (with spacing check)
-3. Scroll the environment left
-4. Update dino position (velocity + gravity)
-5. Check for collisions
-6. Redraw the board and update score
-
----
-
-#### Dino & Cactus Sprites
-
-**Dino (Alive)**
-```
-    ___
-   / o_|
-<=/__/>>
-  ⌄ ⌄
-```
-
-**Dino (Dead)**
-```
-    ___
-   / x_|
-<=/__/>>
-  ⌄ ⌄
-```
-
-**Cactus 1**
-```
- __
-|^^| _
-|^^|//
-|^^|/
-```
-**Cactus 2**
-``` 
- __
-|^ |/
-| ^|
-```
-
-**Cactus 3**
-``` 
-  __
-\|^ |
- | ^|
-```
-**Cactus 4**
-```
-   __
-_ |^^| _
-\\|^^|//
- \|^^|/
-```
-
----
-
-
-#### Running Dino Game
-- Run the game from the project root:
-```bash
-python -m src.dinoGame.game
-```
-- You can specify the difficulty as a command-line argument:
-```bash
-python -m src.dinoGame.game [low|high|ramp]
-```
-
-#### Test Dino Game
-
-```bash
-PYTHONPATH=src pipenv run pytest tests/test_dino.py -v
-```
 
 ### Minesweeper
 
@@ -650,7 +649,7 @@ Currently, there are no strict imports or secret `.env` variables required for t
 ## Team
 
 - [Chen Chen](https://github.com/LoganHund) - Dino Game
-- [Gavin Chen](https://github.com/OverYander) - 
+- [Gavin Chen](https://github.com/OverYander) - Blackjack
 - [Jonas Chen](https://github.com/JonasChenJusFox) - Tetris
-- [Kyle Chen](https://github.com/KyleC55) - Minefield
-- [Robin Chen](https://github.com/localhost433) - 
+- [Kyle Chen](https://github.com/KyleC55) - Minesweeper
+- [Robin Chen](https://github.com/localhost433) - Snake

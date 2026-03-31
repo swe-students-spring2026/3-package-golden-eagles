@@ -1,5 +1,5 @@
 import random
-from src.core import Sprite
+from core import Sprite
 
 __all__ = ["Dino", "Cactus"]
 
