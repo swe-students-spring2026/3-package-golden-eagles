@@ -11,7 +11,7 @@ This repository is in active development for the course package exercise.
 - **Tetris**:A terminal-based Tetris module with reusable core logic for board creation, piece spawning, rotation, placement, collision checks, row clearing, and a playable curses-based demo.
 - **Snake**: Grid-based snake movement with growth, food spawning, and collision rules.
 - **Minefield**: Minefield is a puzzle game in which players reveal squares on a grid and use number clues to identify and avoid hidden mines. The objective is to clear all safe squares without triggering a mine.
-- **Dino Game**:
+- **Dino Game**: Plays the out-of-internet dinosaur game on the terminal with selectable difficulty (speed)
 
 ## Current Progress
 
@@ -20,7 +20,7 @@ This repository is in active development for the course package exercise.
 - `minefield` module exists with core functions and a terminal game loop.
 - `snake` module exists with importable core logic, unit tests coverage, and a terminal playable version.
 - `tetris` module exists with importable core logic, row-clearing behavior, pytest coverage, and a terminal playable version.
-- `dinoGame` module imports from core default library currently only supports windows os
+- `dinoGame` module imports from core default library and currently only supports windows os
 
 ## Module Details
 ### Core Library (`src/core`)
@@ -62,6 +62,8 @@ The `Sprite` class represents an object/actor on the board.
 
 #### Board
 The `Board` class represents the game environment and handles rendering.
+
+---
 
 **Functions**
 
@@ -107,6 +109,8 @@ The `Board` class represents the game environment and handles rendering.
 - `copy()`  
   Returns a copy of the board grid.
 
+---
+
 #### ScrollingBoard
 Extends `Board` to support side-scrolling behavior.
 
@@ -127,6 +131,107 @@ Extends `Board` to support side-scrolling behavior.
 - `addSpriteToLoadingZone(sprite, offset=0)`  
   Adds a sprite just outside the visible board for later entry.
 
+---
+
+#### Basic Game Logic
+
+The Dino Game builds on the core library’s **scrolling** and **sprite-based rendering** system.  
+Instead of moving the player forward, the **environment scrolls left**, creating an endless runner effect while the dino remains mostly fixed horizontally.
+
+---
+
+#### Core Mechanics
+
+- **Jump Behavior (`jump`)**  
+  Applies an upward velocity to the dino when grounded, followed by gravity each tick to simulate a smooth jump arc.
+
+- **Cactus Spawning (`spawnCactus`, `canSpawnCactus`)**  
+  Obstacles are spawned randomly in the loading zone.  
+  A minimum gap (`minGap`) is enforced to prevent overlapping or unfair spawns.
+
+- **Collision Detection (`checkCollision`)**  
+  Uses the core library’s sprite collision system to detect overlap between the dino and cacti.  
+  Ends the game immediately on collision.
+
+- **Scrolling Behavior**  
+  The board continuously shifts left each tick, moving all sprites except the dino.  
+  Off-screen objects are automatically removed.
+
+- **Rendering Priority (`prioritizeDino`)**  
+  Ensures the dino is always drawn on top of other sprites.
+
+---
+
+#### Game Logic
+
+Each tick:
+1. Handle input (jump)
+2. Possibly spawn a cactus (with spacing check)
+3. Scroll the environment left
+4. Update dino position (velocity + gravity)
+5. Check for collisions
+6. Redraw the board and update score
+
+---
+
+#### Dino & Cactus Sprites
+
+**Dino (Alive)**
+```
+    ___
+   / o_|
+<=/__/>>
+  ⌄ ⌄
+```
+
+**Dino (Dead)**
+```
+    ___
+   / x_|
+<=/__/>>
+  ⌄ ⌄
+```
+
+**Cactus 1**
+```
+ __
+|^^| _
+|^^|//
+|^^|/
+```
+**Cactus 2**
+``` 
+ __
+|^ |/
+| ^|
+```
+
+**Cactus 3**
+``` 
+  __
+\|^ |
+ | ^|
+```
+**Cactus 4**
+```
+   __
+_ |^^| _
+\\|^^|//
+ \|^^|/
+```
+
+---
+
+
+#### Running the Game
+- Run the game from the project root:
+```bash
+python -m src.dinoGame.game
+```
+0 You can specify the difficulty as a command-line argument:
+```bash
+python -m src.dinoGame.game [low|high|ramp]
+```
 
 ### BlackJack
 A command-line implementation of the card game Blackjack. Players play against a dealer with blackjack rules like hand splitting, ace value adjustment (1 or 11), and blackjack win conditions or tie conditions.
@@ -518,7 +623,6 @@ Currently, there are no strict imports or secret `.env` variables required for t
 - Add full packaging metadata for publishing to PyPI.
 - Add CI workflow to test/build on multiple Python versions.
 - Expand examples and function-level documentation for each game.
-- Implement tests using pytest
 
 ## Team
 
