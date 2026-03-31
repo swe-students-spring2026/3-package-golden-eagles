@@ -401,6 +401,11 @@ print(ace.print_card())
     - Returns: int (player_total) or None is bust
     - Example: `dealer_total = dealer_turn(player_cards, dealer_cards, deck)`
 
+#### Run game 
+python -m src.blackjack
+
+#### Run tests
+python -m pytest tests/test_blackjack.py
 
 ### Dino Game
 
