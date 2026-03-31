@@ -26,9 +26,9 @@ def check_winner(player_total, dealer_total):
     print(f"Player total end: {player_total}")
     print(f"Dealer total end: {dealer_total}")
     if player_total > dealer_total:
-        return "You hand wins!"
+        return "You win!"
     elif player_total < dealer_total:
-        return "Your hand loses"
+        return "Dealer wins!"
     else:
         return "A tie is practically a loss"
 
