@@ -1,11 +1,14 @@
 import time
 import random
 import sys
-from src.core import ScrollingBoard
-from src.dinoGame.dinoAssets import Dino, Cactus
 import os
+
+from core import ScrollingBoard
+from .dinoAssets import Dino, Cactus
+
 if os.name == "nt":
     import msvcrt
+
 
 def refresh(offset):
     sys.stdout.write(f"\033[{offset+1};1H")
@@ -133,7 +136,7 @@ def run_game(difficulty="low"):
 
     print("Game Over")
 
-if __name__ == "__main__":
+def main():
     intro()
 
     difficulty = "ramp"  # default
@@ -147,5 +150,5 @@ if __name__ == "__main__":
 
     run_game(difficulty)
 
-# restores cursor when program exits
-print("\033[?25h", end="")
+    # restores cursor when program exits
+    print("\033[?25h", end="")
