@@ -11,17 +11,228 @@ This repository is in active development for the course package exercise.
 - **Tetris**:A terminal-based Tetris module with reusable core logic for board creation, piece spawning, rotation, placement, collision checks, row clearing, and a playable curses-based demo.
 - **Snake**: Grid-based snake movement with growth, food spawning, and collision rules.
 - **Minefield**: Minefield is a puzzle game in which players reveal squares on a grid and use number clues to identify and avoid hidden mines. The objective is to clear all safe squares without triggering a mine.
-- **Dino Game**:
+- **Dino Game**: Plays the out-of-internet dinosaur game on the terminal with selectable difficulty (speed)
 
 ## Current Progress
 
 - `blackjack` nearly completed, missing two special functions surrounding split hands and the ace
-- `core` default library containing basic class and functions
+- `core` default library containing basic class and functions for simple 2d games to run on the terminal
 - `minefield` module exists with core functions and a terminal game loop.
 - `snake` module exists with importable core logic, unit tests coverage, and a terminal playable version.
 - `tetris` module exists with importable core logic, row-clearing behavior, pytest coverage, and a terminal playable version.
+- `dinoGame` module imports from core default library and currently only supports windows os
 
 ## Module Details
+### Core Library (`src/core`)
+The core library provides a reusable foundation for building terminal-based 2D games.
+
+#### Overview
+- **`Sprite`** - represents any drawable object (player, obstacle, etc.)
+- **`Board`** & **`ScrollingBoard`**  - manages a 2D grid and renders sprites, and `ScrollingBoard` extends `Board` with side-scrolling behavior
+
+---
+
+#### Sprite
+The `Sprite` class represents an object/actor on the board.
+
+- Stores:
+  - position - `row`, `col`
+  - shape - `mask`
+  - dimensions - `height`, `width`
+- Does **not** render itself — only holds state
+
+**Functions**
+
+- `__init__(row, col, mask, fill=" ")`  
+  Initialize a sprite with position, shape (mask), and fill character.
+
+- `move(direction, steps=1)`  
+  Moves the sprite in a given direction (`up`, `down`, `left`, `right`).
+
+- `alter(newMask, startingPoint="topLeft")`  
+  Changes the sprite’s shape while preserving alignment based on a reference point (e.g., center, corners).
+
+- `stringToMask(s)` *(static)*  
+  Converts a multi-line string into a 2D mask (list of character lists).
+
+- `maskToString(mask)` *(static)*  
+  Converts a 2D mask back into a printable string format.
+
+---
+
+#### Board
+The `Board` class represents the game environment and handles rendering.
+
+---
+
+**Functions**
+
+- `__init__(rows, cols, fill=" ")`  
+  Creates a board with given dimensions and default fill character.
+
+- `redraw()`  
+  Clears the grid and redraws all sprites onto the board.
+
+- `setFill(fill)`  
+  Updates the default fill character for empty cells.
+
+- `reset(clearSprites=False)`  
+  Clears the grid and optionally removes all sprites.
+
+- `setCell(row, col, val)`  
+  Sets a specific cell value (ignores out-of-bounds).
+
+- `getCell(row, col)`  
+  Returns the value of a specific cell.
+
+- `getArea(row, col, height=1, width=1)`  
+  Returns a sub-area of the board as a 2D list.
+
+- `clearArea(row, col, height=1, width=1)`  
+  Clears a region of the board back to the fill value.
+
+- `addSprite(sprite, redraw=True)`  
+  Adds a sprite to the board and optionally redraws.
+
+- `removeSprite(sprite)`  
+  Removes a sprite and redraws the board.
+
+- `overlay(row, col, mask, fill=" ")`  
+  Draws a mask onto the board at a given position.
+
+- `spritesCollide(sprite1, sprite2)`  
+  Checks if two sprites overlap (ignores transparent cells).
+
+- `printBoard(row=0, col=0, height=20, width=50)`  
+  Prints a portion of the board to the terminal.
+
+- `copy()`  
+  Returns a copy of the board grid.
+
+---
+
+#### ScrollingBoard
+Extends `Board` to support side-scrolling behavior.
+
+**Functions**
+
+- `__init__(rows, cols, fill=" ", loadingZone=10)`  
+  Initializes a board with an additional off-screen loading zone.
+
+- `isOffScreenLeft(sprite)`  
+  Checks if a sprite has moved completely off the left side.
+
+- `inLoadingZone(sprite)`  
+  Checks if a sprite is fully within the right-side loading zone.
+
+- `scrollLeft(step=1, exclude=None)`  
+  Moves all sprites left and removes off-screen sprites.
+
+- `addSpriteToLoadingZone(sprite, offset=0)`  
+  Adds a sprite just outside the visible board for later entry.
+
+---
+
+#### Basic Game Logic
+
+The Dino Game builds on the core library’s **scrolling** and **sprite-based rendering** system.  
+Instead of moving the player forward, the **environment scrolls left**, creating an endless runner effect while the dino remains mostly fixed horizontally.
+
+---
+
+#### Core Mechanics
+
+- **Jump Behavior (`jump`)**  
+  Applies an upward velocity to the dino when grounded, followed by gravity each tick to simulate a smooth jump arc.
+
+- **Cactus Spawning (`spawnCactus`, `canSpawnCactus`)**  
+  Obstacles are spawned randomly in the loading zone.  
+  A minimum gap (`minGap`) is enforced to prevent overlapping or unfair spawns.
+
+- **Collision Detection (`checkCollision`)**  
+  Uses the core library’s sprite collision system to detect overlap between the dino and cacti.  
+  Ends the game immediately on collision.
+
+- **Scrolling Behavior**  
+  The board continuously shifts left each tick, moving all sprites except the dino.  
+  Off-screen objects are automatically removed.
+
+- **Rendering Priority (`prioritizeDino`)**  
+  Ensures the dino is always drawn on top of other sprites.
+
+---
+
+#### Game Logic
+
+Each tick:
+1. Handle input (jump)
+2. Possibly spawn a cactus (with spacing check)
+3. Scroll the environment left
+4. Update dino position (velocity + gravity)
+5. Check for collisions
+6. Redraw the board and update score
+
+---
+
+#### Dino & Cactus Sprites
+
+**Dino (Alive)**
+```
+    ___
+   / o_|
+<=/__/>>
+  ⌄ ⌄
+```
+
+**Dino (Dead)**
+```
+    ___
+   / x_|
+<=/__/>>
+  ⌄ ⌄
+```
+
+**Cactus 1**
+```
+ __
+|^^| _
+|^^|//
+|^^|/
+```
+**Cactus 2**
+``` 
+ __
+|^ |/
+| ^|
+```
+
+**Cactus 3**
+``` 
+  __
+\|^ |
+ | ^|
+```
+**Cactus 4**
+```
+   __
+_ |^^| _
+\\|^^|//
+ \|^^|/
+```
+
+---
+
+
+#### Running the Game
+- Run the game from the project root:
+```bash
+python -m src.dinoGame.game
+```
+0 You can specify the difficulty as a command-line argument:
+```bash
+python -m src.dinoGame.game [low|high|ramp]
+```
+
 ### BlackJack
 A command-line implementation of the card game Blackjack. Players play against a dealer with blackjack rules like hand splitting, ace value adjustment (1 or 11), and blackjack win conditions or tie conditions.
 
@@ -412,7 +623,6 @@ Currently, there are no strict imports or secret `.env` variables required for t
 - Add full packaging metadata for publishing to PyPI.
 - Add CI workflow to test/build on multiple Python versions.
 - Expand examples and function-level documentation for each game.
-- Implement tests using pytest
 
 ## Team
 
