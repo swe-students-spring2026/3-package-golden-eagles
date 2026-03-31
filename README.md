@@ -133,7 +133,7 @@ Extends `Board` to support side-scrolling behavior.
 
 ---
 
-#### Basic Game Logic
+### Dino Game
 
 The Dino Game builds on the core library’s **scrolling** and **sprite-based rendering** system.  
 Instead of moving the player forward, the **environment scrolls left**, creating an endless runner effect while the dino remains mostly fixed horizontally.
@@ -228,7 +228,7 @@ _ |^^| _
 ```bash
 python -m src.dinoGame.game
 ```
-0 You can specify the difficulty as a command-line argument:
+You can specify the difficulty as a command-line argument:
 ```bash
 python -m src.dinoGame.game [low|high|ramp]
 ```
