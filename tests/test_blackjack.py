@@ -2,6 +2,7 @@ import pytest
 from src.blackjack import Card, check_player_total, check_dealer_total, check_winner, change_ace_value
 
 # python -m pytest tests/test_blackjack.py
+# python3 -m pytest tests/test_blackjack.py
 # when testing make sure start_blackjack is not being called in blackjack.py
 
 # Test cases for the card class and deck generation
@@ -63,19 +64,20 @@ Don't think we can test user input functions
 class TestBlackjack:
     def test_check_player_total(self):
         # test math logic for player total
-        assert check_player_total(21) == True
-        assert check_player_total(22) == True
-        assert check_player_total(20) == False
+        assert check_player_total(21) == 21
+        assert check_player_total(22) == 22
+        assert check_player_total(20) == 20
 
     def test_check_dealer_total(self):
         # test math logic for dealer total
-        assert check_dealer_total(21) == True
+        assert check_dealer_total(21) == 21
         assert check_dealer_total(22) == True
         assert check_dealer_total(20) == False
 
     def test_check_winner(self):
         # test winner logic
-        assert check_winner(20, 19) == 'You win!'
+        assert check_winner(22, 19) == 'Your hand busts. You lose'
+        assert check_winner(20, 19) == 'Your hand wins!'
         assert check_winner(19, 20) == 'Dealer wins!'
         assert check_winner(20, 20) == 'A tie is practically a loss'
 
