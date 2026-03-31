@@ -648,7 +648,7 @@ Currently, there are no strict imports or secret `.env` variables required for t
 
 ## Team
 
-- LH(https://github.com/LoganHund)
+- [LH](https://github.com/LoganHund)
 - [Gavin Chen](https://github.com/OverYander)
 - [Jonas Chen](https://github.com/JonasChenJusFox)
 - [Kyle Chen](https://github.com/KyleC55)
