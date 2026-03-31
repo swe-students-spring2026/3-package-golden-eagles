@@ -1,1 +1,1 @@
-from dinoAssets import *
+from .dinoAssets import *
