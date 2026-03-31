@@ -7,9 +7,8 @@ This repository is in active development for the course package exercise.
 
 ## Planned Game Module
 
+- **Blackjack**: Terminal based blackjack game, emulating a mini game to play to pass some time
 - **Tetris**:A terminal-based Tetris module with reusable core logic for board creation, piece spawning, rotation, placement, collision checks, row clearing, and a playable curses-based demo.
-- **Blackjack**: Plays a simple game of blackjack wihtin the terminal given the user and the dealer
-- **Tetris**:
 - **Snake**: Grid-based snake movement with growth, food spawning, and collision rules.
 - **Minefield**: Minefield is a puzzle game in which players reveal squares on a grid and use number clues to identify and avoid hidden mines. The objective is to clear all safe squares without triggering a mine.
 - **Dino Game**:

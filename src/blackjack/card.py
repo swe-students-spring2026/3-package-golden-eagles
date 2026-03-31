@@ -13,6 +13,14 @@ class Card():
         }
         self.is_face = royal.get(self.num) if self.num in royal else None
 
+    # testing purposes
+    @staticmethod
+    def test_card(num, is_face):
+        temp = Card("Hearts", num)
+        temp.is_face = is_face
+        temp.num = 10 if is_face == "J" or is_face == "Q" or is_face == "K" else num
+        return temp
+
     @staticmethod
     def generate_deck():
         suits = ["Hearts", "Diamonds", "Clubs", "Spades"]
