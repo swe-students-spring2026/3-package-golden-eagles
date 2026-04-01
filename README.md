@@ -6,6 +6,10 @@
 
 ![Python](https://img.shields.io/badge/python-3.14-blue)
 
+## Link to Package
+
+[golden-eagles-games on PyPI](https://pypi.org/project/golden-eagles-games/0.1.2/)
+
 Lightweight, reusable Python game modules built as an installable package.  
 This repository is in active development for the course package exercise.
 
